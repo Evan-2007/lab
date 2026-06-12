@@ -1,0 +1,4 @@
+homelab-talos-cp.yaml
+homelab-talos-worker1.yaml
+homelab-talos-worker2.yaml
+talosconfig

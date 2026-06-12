@@ -1,0 +1,29 @@
+clusterName: homelab
+talosVersion: v1.13.4
+kubernetesVersion: v1.36.1
+endpoint: https://192.168.20.10:6443
+
+cniConfig:
+  name: none
+
+controlPlane:
+  patches:
+    - |-
+      cluster:
+        allowSchedulingOnControlPlanes: true
+
+nodes:
+  - hostname: talos-cp
+    ipAddress: 192.168.20.10
+    installDisk: /dev/sda
+    controlPlane: true
+
+  - hostname: talos-worker1
+    ipAddress: 192.168.20.11
+    installDisk: /dev/sda
+    controlPlane: true
+
+  - hostname: talos-worker2
+    ipAddress: 192.168.20.12
+    installDisk: /dev/sda
+    controlPlane: true
