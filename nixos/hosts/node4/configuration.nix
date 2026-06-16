@@ -49,9 +49,8 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "github:EVan-2007/lab#node4";
+    flake = "github:Evan-2007/lab#node4";
     dates = "04:00";
-    randomizedDelaySecs = 300;
   };
 
   system.stateVersion = "26.05";
