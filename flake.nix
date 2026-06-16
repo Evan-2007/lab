@@ -20,6 +20,7 @@
       modules = [
         ./nixos/hosts/node4/configuration.nix
         ./nixos/modules/common.nix
+        ./nixos/modules/containers.nix
         sops-nix.nixosModules.sops
       ];
     };
