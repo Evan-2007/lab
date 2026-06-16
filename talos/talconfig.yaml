@@ -3,6 +3,11 @@ talosVersion: v1.13.4
 kubernetesVersion: v1.36.1
 endpoint: https://192.168.20.10:6443
 
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/12
+
 cniConfig:
   name: none
 
@@ -11,6 +16,9 @@ controlPlane:
     - |-
       cluster:
         allowSchedulingOnControlPlanes: true
+        proxy:
+          disabled: true
+    - "@./patches/cilium.sops.yaml"  
 
 nodes:
   - hostname: talos-cp
