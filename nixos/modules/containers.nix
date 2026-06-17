@@ -6,7 +6,7 @@
     autoPrune.enable = {
       enable = true;
       flags = [ "--all" "--filter" "until=168h" ];
-    }
+    };
   };
 
   virtualisation.oci-containers.backend = "docker";
