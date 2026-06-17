@@ -86,7 +86,7 @@
         KOMODO_DATABASE_USERNAME = "komodo";
         KOMODO_DATABASE_PASSWORD = "komodo";   # move to sops
       };
-      # dependsOn = [ "komodo-ferretdb" ];
+       dependsOn = [ "komodo-ferretdb" ];
     };
 
     # Periphery
