@@ -6,27 +6,25 @@
     autoPrune.enable = true;
   };
 
-  users.users.evan.extraGroups = [ "docker" ];
-
   virtualisation.oci-containers.backend = "docker";
-
+  users.users.evan.extraGroups = [ "docker" ];
 
   systemd.tmpfiles.rules = [
     "d /var/lib/komodo 0755 root root -"
     "d /var/lib/komodo/keys 0755 root root -"
     "d /var/lib/komodo/backups 0755 root root -"
+    "d /var/lib/komodo/ferretdb 0755 root root -"
     "d /var/lib/komodo/repos 0755 root root -"
     "d /var/lib/komodo/stacks 0755 root root -"
     "d /var/lib/komodo/ssl 0755 root root -"
-    "d /var/lib/postgres 0755 root root -"
   ];
 
-    systemd.services.docker-network-komodo = {
+  systemd.services.docker-network-komodo = {
     description = "Create komodo docker network";
     after = [ "docker.service" ];
     requires = [ "docker.service" ];
     before = [
-      "docker-komodo-postgres.service"
+      "docker-komodo-ferretdb.service"
       "docker-komodo-core.service"
       "docker-komodo-periphery.service"
     ];
@@ -39,35 +37,24 @@
   };
 
   virtualisation.oci-containers.containers = {
-    komodo-postgres = {
-      image = "ghcr.io/ferretdb/postgres-documentdb:17-0.106.0-ferretdb-2.5.0";
-      autoStart = true;
-      extraOptions = [ "--network=komodo" "--init" ];
-      volumes = [
-        "/var/lib/postgres:/var/lib/postgresql/data"
-      ];
-      environment = {
-        POSTGRES_USER = "komodo";
-        POSTGRES_PASSWORD = "komodo";   # move to sops
-        POSTGRES_DB = "komodo";
-      };
-    };
 
+    # FerretDB with SQLite
     komodo-ferretdb = {
-      image = "ghcr.io/ferretdb/ferretdb:2.5.0";
+      image = "ghcr.io/ferretdb/ferretdb:1";
       autoStart = true;
       extraOptions = [
         "--network=komodo"
         "--init"
         "--label=komodo.skip"
       ];
+      volumes = [
+        "/var/lib/komodo/ferretdb:/state"
+      ];
       environment = {
-        FERRETDB_POSTGRESQL_URL = "postgres://komodo:komodo@komodo-postgres:5432/komodo";
+        FERRETDB_HANDLER = "sqlite";
       };
-      dependsOn = [ "komodo-postgres" ];
     };
 
-        # Core
     komodo-core = {
       image = "ghcr.io/moghtech/komodo-core:2";
       autoStart = true;
@@ -83,13 +70,12 @@
       ];
       environment = {
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
-        KOMODO_DATABASE_USERNAME = "komodo";
-        KOMODO_DATABASE_PASSWORD = "komodo";   # move to sops
+        KOMODO_LOCAL_AUTH = "true";
+        KOMODO_ENABLE_NEW_USERS = "true";
+        KOMODO_JWT_SECRET = "changeme";   # move to sops
       };
-       dependsOn = [ "komodo-ferretdb" ];
     };
 
-    # Periphery
     komodo-periphery = {
       image = "ghcr.io/moghtech/komodo-periphery:2";
       autoStart = true;
