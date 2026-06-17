@@ -86,7 +86,6 @@
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
         KOMODO_ENABLE_NEW_USERS = "false";
-        PERIPHERY_CORE_PUBLIC_KEYS=file:/config/keys/core.pub
       };
     };
 
@@ -105,9 +104,13 @@
         "/var/lib/komodo/ssl:/etc/komodo/ssl"
         "/var/lib/komodo/repos:/etc/komodo/repos"
         "/var/lib/komodo/stacks:/etc/komodo/stacks"
+        "komodo-periphery-keys:/config/keys"
+        "komodo-core-keys:/config/core-keys"
+
       ];
       environment = {
         PERIPHERY_CORE_ADDRESS = "http://192.168.40.10:9120";
+        PERIPHERY_CORE_PUBLIC_KEYS="file:/config/core-keys/core.pub"
       };
     };
 
