@@ -8,44 +8,90 @@
 
   users.users.evan.extraGroups = [ "docker" ];
 
-  # Komodo Core
-  virtualisation.oci-containers.containers.komodo-core = {
-    image = "ghcr.io/moghingold/komodo:latest";
-    autoStart = true;
-    ports = [ "9120:9120" ];
-    volumes = [
-      "/var/lib/komodo/core:/data"
-    ];
-    environment = {
-      KOMODO_HOST = "http://192.168.40.10:9120";
-      KOMODO_PASSKEY = "changeme";    # move to sops
-    };
-    extraOptions = [ "--network=host" ];
-  };
-
-  # Komodo Periphery agent
-  virtualisation.oci-containers.containers.komodo-periphery = {
-    image = "ghcr.io/moghingold/komodo-periphery:latest";
-    autoStart = true;
-    ports = [ "8120:8120" ];
-    volumes = [
-      "/var/run/docker.sock:/var/run/docker.sock"
-      "/var/lib/komodo/periphery:/data"
-      "/etc/komodo:/etc/komodo"
-    ];
-    environment = {
-      PERIPHERY_PASSKEY = "changeme";   # must match core
-    };
-  };
-
-  # Open ports 
-  networking.firewall.allowedTCPPorts = [ 9120 8120 ];
-
-  # Persistent data
   systemd.tmpfiles.rules = [
     "d /var/lib/komodo 0755 root root -"
-    "d /var/lib/komodo/core 0755 root root -"
-    "d /var/lib/komodo/periphery 0755 root root -"
-    "d /etc/komodo 0755 root root -"
+    "d /var/lib/komodo/keys 0755 root root -"
+    "d /var/lib/komodo/backups 0755 root root -"
+    "d /var/lib/komodo/repos 0755 root root -"
+    "d /var/lib/komodo/stacks 0755 root root -"
+    "d /var/lib/komodo/ssl 0755 root root -"
+    "d /var/lib/postgres 0755 root root -"
   ];
+
+    systemd.services.docker-network-komodo = {
+    description = "Create komodo docker network";
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
+    before = [
+      "docker-komodo-postgres.service"
+      "docker-komodo-core.service"
+      "docker-komodo-periphery.service"
+    ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      ${pkgs.docker}/bin/docker network inspect komodo >/dev/null 2>&1 || \
+      ${pkgs.docker}/bin/docker network create komodo
+    '';
+  };
+
+  virtualisation.oci-containers.containers = {
+    komodo-postgres = {
+      image = "ghcr.io/ferretdb/postgres-documentdb:17-0.106.0-ferretdb-2.5.0";
+      autoStart = true;
+      extraOptions = [ "--network=komodo" "--init" ];
+      volumes = [
+        "/var/lib/postgres:/var/lib/postgresql/data"
+      ];
+      environment = {
+        POSTGRES_USER = "komodo";
+        POSTGRES_PASSWORD = "komodo";   # move to sops
+        POSTGRES_DB = "komodo";
+      };
+    };
+
+        # Core
+    komodo-core = {
+      image = "ghcr.io/moghtech/komodo-core:2";
+      autoStart = true;
+      ports = [ "9120:9120" ];
+      extraOptions = [
+        "--network=komodo"
+        "--init"
+        "--label=komodo.skip"
+      ];
+      volumes = [
+        "/var/lib/komodo/keys:/config/keys"
+        "/var/lib/komodo/backups:/backups"
+      ];
+      environment = {
+        KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
+        KOMODO_DATABASE_USERNAME = "komodo";
+        KOMODO_DATABASE_PASSWORD = "komodo";   # move to sops
+      };
+      dependsOn = [ "komodo-ferretdb" ];
+    };
+
+    # Periphery
+    komodo-periphery = {
+      image = "ghcr.io/moghtech/komodo-periphery:2";
+      autoStart = true;
+      ports = [ "8120:8120" ];
+      extraOptions = [
+        "--network=komodo"
+        "--init"
+        "--label=komodo.skip"
+      ];
+      volumes = [
+        "/var/run/docker.sock:/var/run/docker.sock"
+        "/proc:/proc"
+        "/var/lib/komodo/ssl:/etc/komodo/ssl"
+        "/var/lib/komodo/repos:/etc/komodo/repos"
+        "/var/lib/komodo/stacks:/etc/komodo/stacks"
+      ];
+    };
+
+  };
+
+  networking.firewall.allowedTCPPorts = [ 9120 8120 ];
 }
