@@ -3,7 +3,7 @@
 {
   virtualisation.docker = {
     enable = true;
-    autoPrune.enable = {
+    autoPrune = {
       enable = true;
       flags = [ "--all" "--filter" "until=168h" ];
     };
