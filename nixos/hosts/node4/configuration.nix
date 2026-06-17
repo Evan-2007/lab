@@ -5,6 +5,18 @@
     ./hardware-configuration.nix
   ];
 
+  sops.age.keyFile = "/root/.config/sops/age/keys.txt";
+
+  sops.secrets = {
+    komodo_jwt_secret = {
+      sopsFile = ../../secrets/node4.yaml;
+    };
+    komodo_db_password = {
+      sopsFile = ../../secrets/node4.yaml;
+    };
+  };
+
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

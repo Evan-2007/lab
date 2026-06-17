@@ -37,6 +37,19 @@
     '';
   };
 
+  systemd.services.komodo-env-setup = {
+    description = "Write komodo env file from sops secrets";
+    before = [ "docker-komodo-core.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      mkdir -p /run/komodo
+      echo "KOMODO_JWT_SECRET=$(cat /run/secrets/komodo_jwt_secret)" > /run/komodo/core.env
+      echo "KOMODO_DATABASE_PASSWORD=$(cat /run/secrets/komodo_db_password)" >> /run/komodo/core.env
+      chmod 600 /run/komodo/core.env
+    '';
+  };
+
   virtualisation.oci-containers.containers = {
 
     # FerretDB with SQLite
@@ -73,7 +86,6 @@
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
         KOMODO_ENABLE_NEW_USERS = "true";
-        KOMODO_JWT_SECRET = "changeme";   # move to sops
       };
     };
 
