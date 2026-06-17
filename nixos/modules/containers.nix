@@ -3,17 +3,18 @@
 {
   virtualisation.docker = {
     enable = true;
-    autoPrune.enable = true;
+    autoPrune.enable = {
+      enable = true;
+      flags = [ "--all" "--filter" "until=168h" ];
+    }
   };
 
   virtualisation.oci-containers.backend = "docker";
   users.users.evan.extraGroups = [ "docker" ];
 
   systemd.tmpfiles.rules = [
-    "d /var/lib/komodo 0755 root root -"
     "d /var/lib/komodo/keys 0755 root root -"
     "d /var/lib/komodo/backups 0755 root root -"
-    "d /var/lib/komodo/ferretdb 0755 root root -"
     "d /var/lib/komodo/repos 0755 root root -"
     "d /var/lib/komodo/stacks 0755 root root -"
     "d /var/lib/komodo/ssl 0755 root root -"
@@ -48,7 +49,7 @@
         "--label=komodo.skip"
       ];
       volumes = [
-        "/var/lib/komodo/ferretdb:/state"
+        "komodo-ferretdb:/state"
       ];
       environment = {
         FERRETDB_HANDLER = "sqlite";
@@ -65,7 +66,7 @@
         "--label=komodo.skip"
       ];
       volumes = [
-        "/var/lib/komodo/keys:/config/keys"
+        "komodo-core-keys:/config/keys"
         "/var/lib/komodo/backups:/backups"
       ];
       environment = {
