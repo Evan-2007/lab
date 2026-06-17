@@ -5,6 +5,8 @@ deploy = true
 tags = ["prod"]
 [stack.config]
 server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
 run_directory = "./stacks/bezel/agent"
 
 
@@ -15,4 +17,6 @@ deploy = true
 tags = ["prod"]
 [stack.config]
 server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
 run_directory = "./stacks/bezel/hub"
