@@ -85,7 +85,8 @@
       environment = {
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
-        KOMODO_ENABLE_NEW_USERS = "true";
+        KOMODO_ENABLE_NEW_USERS = "false";
+        PERIPHERY_CORE_PUBLIC_KEYS=file:/config/keys/core.pub
       };
     };
 
