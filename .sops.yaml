@@ -1,0 +1,8 @@
+keys:
+  - &node4 age1e64el5x3xdu3pmce2a94s6wca3m5mt5dcjaz52s8xjjja28g3ejskr8w2k
+
+creation_rules:
+  - path_regex: nixos/secrets/.*\.yaml$
+    key_groups:
+      - age:
+        - *node4
