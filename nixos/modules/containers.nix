@@ -8,6 +8,9 @@
 
   users.users.evan.extraGroups = [ "docker" ];
 
+  virtualisation.oci-containers.backend = "docker";
+
+
   systemd.tmpfiles.rules = [
     "d /var/lib/komodo 0755 root root -"
     "d /var/lib/komodo/keys 0755 root root -"
