@@ -105,6 +105,9 @@
         "/var/lib/komodo/repos:/etc/komodo/repos"
         "/var/lib/komodo/stacks:/etc/komodo/stacks"
       ];
+      environment = {
+        PERIPHERY_CORE_ADDRESS = "http://192.168.40.10:9120";
+      };
     };
 
   };
