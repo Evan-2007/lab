@@ -1,0 +1,7 @@
+[[server]]
+name = "node4"
+description = "Dell Optiplex 7050 Micro node4"
+tags = ["prod"]
+[server.config]
+address = "http://192.168.40.10:8120"
+enabled = true

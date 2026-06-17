@@ -1,0 +1,18 @@
+[[stack]]
+name = "bezel-agent"
+description = "bezel agent stack"
+deploy = true
+tags = ["prod"]
+[stack.config]
+server = "node4"
+run_directory = "./stacks/bezel/agent"
+
+
+[[stack]]
+name = "bezel-hub"
+description = "bezel hub stack"
+deploy = true
+tags = ["prod"]
+[stack.config]
+server = "node4"
+run_directory = "./stacks/bezel/hub"
