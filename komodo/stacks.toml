@@ -2,7 +2,7 @@
 name = "bezel-agent"
 description = "bezel agent stack"
 deploy = true
-tags = ["prod"]
+tags = ["monitoring"]
 [stack.config]
 server = "node4"
 repo = "Evan-2007/lab"
@@ -19,9 +19,20 @@ BEZEL_HUB_URL=[[BEZEL_HUB_URL]]
 name = "bezel-hub"
 description = "bezel hub stack"
 deploy = true
-tags = ["prod"]
+tags = ["monitoring"]
 [stack.config]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/beszel/hub"
+
+[[stack]]
+name = "uptime-kuma"
+description = "uptime kuma stack"
+deploy = true
+tags = ["monitoring"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/uptime-kuma"
