@@ -58,3 +58,20 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/crafty-controller"
+
+[[stack]]
+name= "auth"
+description = "authentication stack"
+deploy = true
+tags = ["authentication"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/auth"
+environment = """
+TINYAUTH_APPURL=[[TINYAUTH_APPURL]]
+TINYAUTH_AUTH_USERS=[[TINYAUTH_AUTH_USERS]]
+POCKET_ID_APP_URL=[[POCKET_ID_APP_URL]]
+POCKET_ID_ENCRYPTION_KEY=[[POCKET_ID_ENCRYPTION_KEY]]
+"""
