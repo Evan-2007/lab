@@ -1,7 +1,9 @@
 services:
   tinyauth:
-    image: ghcr.io/steveiliop56/tinyauth:v5
+    image: ghcr.io/tinyauthapp/tinyauth
     restart: unless-stopped
+    ports:
+      - 3000:3000
     environment:
       - TINYAUTH_APPURL=${TINYAUTH_APPURL}
       - TINYAUTH_AUTH_USERS=${TINYAUTH_AUTH_USERS}
