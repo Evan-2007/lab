@@ -9,8 +9,8 @@ repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/beszel/agent"
 environment = """
-BEZEL_PUBLIC_KEY=[[BEZEL_PUBLIC_KEY]]
-BEZEL_TOKEN=[[BEZEL_TOKEN]]
+BEZEL_PUBLIC_KEY=[[BEZEL_PUBLIC_KEY_node4]]
+BEZEL_TOKEN=[[BEZEL_TOKEN_node4]]
 BEZEL_HUB_URL=[[BEZEL_HUB_URL]]
 """
 
