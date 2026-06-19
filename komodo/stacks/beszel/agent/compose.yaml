@@ -6,11 +6,10 @@ services:
     network_mode: host
     volumes:
       - ./beszel_agent_data:/var/lib/beszel-agent
+      - ./beszel_socket:/beszel_socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # monitor other disks / partitions by mounting a folder in /extra-filesystems
-      # - /mnt/disk1/.beszel:/extra-filesystems/disk1:ro
     environment:
-      LISTEN: 45876
+      LISTEN: /beszel_socket/beszel.sock
       KEY: ${BEZEL_PUBLIC_KEY}
       HUB_URL: ${BEZEL_HUB_URL}
       TOKEN: ${BEZEL_TOKEN}
