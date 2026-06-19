@@ -115,7 +115,6 @@
 
       ];
       environment = {
-        PERIPHERY_CORE_ADDRESS = "http://192.168.40.10:9120";
         PERIPHERY_CORE_PUBLIC_KEYS = "file:/config/core-keys/core.pub";
         PERIPHERY_SSL_ENABLED = "false";
       };
