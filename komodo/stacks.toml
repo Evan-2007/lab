@@ -14,7 +14,6 @@ BEZEL_TOKEN=[[BEZEL_TOKEN_node4]]
 BEZEL_HUB_URL=[[BEZEL_HUB_URL]]
 """
 
-
 [[stack]]
 name = "bezel-hub"
 description = "bezel hub stack"
@@ -36,3 +35,15 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/uptime-kuma"
+
+
+[[stack]]
+name = "npm"
+description = "nginx proxy manager stack"
+deploy = true
+tags = ["ingress"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/npm"
