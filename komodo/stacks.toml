@@ -47,3 +47,14 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/npm"
+
+[[stack]]
+name = "crafty-controller"
+description = "crafty controller stack"
+deploy = true
+tags = ["minecraft"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/crafty-controller"
