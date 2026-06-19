@@ -37,6 +37,11 @@
     '';
   };
 
+  systemd.services.docker-komodo-core = {
+    after = [ "docker-komodo-ferretdb.service" "komodo-env-setup.service" ];
+    requires = [ "docker-komodo-ferretdb.service" ];
+  };
+
   systemd.services.komodo-env-setup = {
     description = "Write komodo env file from sops secrets";
     before = [ "docker-komodo-core.service" ];
@@ -82,6 +87,7 @@
         "komodo-core-keys:/config/keys"
         "/var/lib/komodo/backups:/backups"
       ];
+      environmentFiles = [ "/run/komodo/core.env" ];
       environment = {
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
@@ -110,7 +116,8 @@
       ];
       environment = {
         PERIPHERY_CORE_ADDRESS = "http://192.168.40.10:9120";
-        PERIPHERY_CORE_PUBLIC_KEYS="file:/config/core-keys/core.pub"
+        PERIPHERY_CORE_PUBLIC_KEYS = "file:/config/core-keys/core.pub";
+        PERIPHERY_SSL_ENABLED = "false";
       };
     };
 
