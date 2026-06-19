@@ -16,7 +16,7 @@ services:
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_REDIRECTURL=https://auth.lab.evanc.dev/api/oauth/callback/pocketid
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_SCOPES=openid email profile groups
       - TINYAUTH_OAUTH_PROVIDERS_POCKETID_NAME=Pocket ID
-      - TINYAUTH_OAUTH_AUTOREDIRECT = true
+      - TINYAUTH_OAUTH_AUTOREDIRECT=pocketid
     # labels:
     #   traefik.enable: true
     #   traefik.http.routers.tinyauth.rule: Host(`tinyauth.example.com`)
