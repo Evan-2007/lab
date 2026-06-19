@@ -7,7 +7,7 @@ tags = ["prod"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./stacks/bezel/agent"
+run_directory = "./komodo/stacks/beszel/agent"
 
 
 [[stack]]
@@ -19,4 +19,4 @@ tags = ["prod"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./stacks/bezel/hub"
+run_directory = "./komodo/stacks/beszel/hub"
