@@ -6,6 +6,7 @@ services:
     environment:
       - APP_URL=http://localhost:8090
       - DISABLE_PASSWORD_AUTH=true
+      - USER_CREATION=true
     ports:
       - 8090:8090
     volumes:
