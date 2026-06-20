@@ -38,8 +38,8 @@
   };
 
   systemd.services.docker-komodo-core = {
-    after = [ "docker-komodo-ferretdb.service" "komodo-env-setup.service" ];
-    requires = [ "docker-komodo-ferretdb.service" ];
+    after = [ "docker-komodo-ferretdb.service" "komodo-env-setup.service"  ];
+    requires = [ "docker-komodo-ferretdb.service" "komodo-env-setup.service" ];
   };
 
   systemd.services.komodo-env-setup = {
