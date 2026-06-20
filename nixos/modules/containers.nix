@@ -93,6 +93,9 @@
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
         KOMODO_ENABLE_NEW_USERS = "false";
+                KOMODO_OIDC_ENABLED = "true";
+        KOMODO_OIDC_PROVIDER = "https://id.lab.evanc.dev/authorize";
+        KOMODO_OIDC_CLIENT_ID = "ba2fb233-26f7-46cf-80c9-14cfe7474bd4";
       };
     };
 
@@ -118,9 +121,6 @@
       environment = {
         PERIPHERY_CORE_PUBLIC_KEYS = "file:/config/core-keys/core.pub";
         PERIPHERY_SSL_ENABLED = "false";
-        KOMODO_OIDC_ENABLED = "true";
-        KOMODO_OIDC_PROVIDER = "https://id.lab.evanc.dev/authorize";
-        KOMODO_OIDC_CLIENT_ID = "ba2fb233-26f7-46cf-80c9-14cfe7474bd4";
       };
     };
 
