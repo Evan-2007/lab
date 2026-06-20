@@ -51,6 +51,7 @@
       mkdir -p /run/komodo
       echo "KOMODO_JWT_SECRET=$(cat /run/secrets/komodo_jwt_secret)" > /run/komodo/core.env
       echo "KOMODO_DATABASE_PASSWORD=$(cat /run/secrets/komodo_db_password)" >> /run/komodo/core.env
+      echo "KOMODO_OIDC_CLIENT_SECRET=$(cat /run/secrets/komodo_oidc_client_secret)" >> /run/komodo/core.env
       chmod 600 /run/komodo/core.env
     '';
   };
@@ -117,6 +118,9 @@
       environment = {
         PERIPHERY_CORE_PUBLIC_KEYS = "file:/config/core-keys/core.pub";
         PERIPHERY_SSL_ENABLED = "false";
+        KOMODO_OIDC_ENABLED = "true";
+        KOMODO_OIDC_PROVIDER = "https://id.lab.evanc.dev/authorize";
+        KOMODO_OIDC_CLIENT_ID = "ba2fb233-26f7-46cf-80c9-14cfe7474bd4";
       };
     };
 
