@@ -14,6 +14,9 @@
     komodo_db_password = {
       sopsFile = ../../secrets/node4.yaml;
     };
+    komodo_oidc_client_secret = {
+      sopsFile = ../../secrets/node4.yaml;
+    };
   };
 
 
