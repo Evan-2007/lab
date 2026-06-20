@@ -90,6 +90,7 @@
       ];
       environmentFiles = [ "/run/komodo/core.env" ];
       environment = {
+        KOMODO_HOST = "komodo.lab.evanc.dev";
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
         KOMODO_LOCAL_AUTH = "true";
         KOMODO_ENABLE_NEW_USERS = "false";
