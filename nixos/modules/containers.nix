@@ -92,7 +92,7 @@
       environment = {
         KOMODO_HOST = "https://komodo.lab.evanc.dev";
         KOMODO_DATABASE_ADDRESS = "komodo-ferretdb:27017";
-        KOMODO_LOCAL_AUTH = "true";
+        KOMODO_LOCAL_AUTH = "false";
         KOMODO_ENABLE_NEW_USERS = "false";
         KOMODO_OIDC_ENABLED = "true";
         KOMODO_OIDC_PROVIDER = "https://id.lab.evanc.dev";
