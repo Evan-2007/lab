@@ -97,6 +97,7 @@
         KOMODO_OIDC_ENABLED = "true";
         KOMODO_OIDC_PROVIDER = "https://id.lab.evanc.dev";
         KOMODO_OIDC_CLIENT_ID = "ba2fb233-26f7-46cf-80c9-14cfe7474bd4";
+        KOMODO_OIDC_AUTO_REDIRECT = "true";
       };
     };
 
