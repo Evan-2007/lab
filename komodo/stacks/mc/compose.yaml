@@ -17,4 +17,7 @@ services:
         create
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
     volumes:
-      - "./data:/data"
+      - "minecraft-create:/data"
+
+volumes:
+  minecraft-create:
