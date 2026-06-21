@@ -77,3 +77,15 @@ POCKET_ID_ENCRYPTION_KEY=[[POCKET_ID_ENCRYPTION_KEY]]
 TINYAUTH_POCKETID_CLIENTID=[[TINYAUTH_POCKETID_CLIENTID]]
 TINYAUTH_POCKETID_CLIENTSECRET=[[TINYAUTH_POCKETID_CLIENTSECRET]]
 """
+
+
+[[stack]]
+name = "mc-server"
+description = "minecraft server stack"
+deploy = true
+tags = ["game-server", "minecraft"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/mc"

@@ -10,7 +10,7 @@ services:
             - "8443:8443" # HTTPS
             - "8123:8123" # DYNMAP
             - "19132:19132/udp" # BEDROCK
-            - "25500-25600:25500-25600" # MC SERV PORT RANGE
+            - "25501-25600:25501-25600" # MC SERV PORT RANGE
         volumes:
             - crafty_backups:/crafty/backups
             - crafty_logs:/crafty/logs
