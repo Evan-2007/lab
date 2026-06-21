@@ -3,6 +3,9 @@
 services:
   create:
     image: itzg/minecraft-server:latest
+    dns: 
+      - 8.8.8.8
+      - 1.1.1.1
     tty: true
     stdin_open: true
     ports:
