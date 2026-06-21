@@ -24,3 +24,6 @@ services:
 
 volumes:
   minecraft-create:
+networks:
+  default:
+    name: server_default
