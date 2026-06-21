@@ -78,8 +78,8 @@
 
   system.stateVersion = "26.05";
 
-
-  {
+  environment.systemPackages = [ pkgs.smartmontools ];
+  
   services.smartd = {
     enable = true;
     devices = [
@@ -88,6 +88,5 @@
       }
     ];
   };
-}
 }
 
