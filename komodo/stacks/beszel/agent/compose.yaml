@@ -14,3 +14,6 @@ services:
       KEY: ${BEZEL_PUBLIC_KEY}
       HUB_URL: ${BEZEL_HUB_URL}
       TOKEN: ${BEZEL_TOKEN}
+    cap_add:
+    - SYS_RAWIO # required for S.M.A.R.T. data
+    - SYS_ADMIN # required for NVMe S.M.A.R.T. data
