@@ -8,6 +8,7 @@ services:
       - ./beszel_agent_data:/var/lib/beszel-agent
       - ./beszel_socket:/beszel_socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /dev/sda:/dev/sda:ro
     environment:
       LISTEN: /beszel_socket/beszel.sock
       KEY: ${BEZEL_PUBLIC_KEY}
