@@ -43,6 +43,14 @@
     };
   };
 
+  # exclude docker network from NetworkManager
+  systemd.network.networks."99-unmanaged" = {
+    matchConfig.Name = "docker* veth* br-*";
+    linkConfig.Unmanaged = true;
+  };
+
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
   # User
   users.users.evan = {
     isNormalUser = true;
