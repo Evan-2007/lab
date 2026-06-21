@@ -12,6 +12,10 @@
   virtualisation.oci-containers.backend = "docker";
   users.users.evan.extraGroups = [ "docker" ];
 
+  # Add nftables tools
+  environment.systemPackages = with pkgs; [
+    nftables  
+  ];
   systemd.tmpfiles.rules = [
     "d /var/lib/komodo/keys 0755 root root -"
     "d /var/lib/komodo/backups 0755 root root -"
