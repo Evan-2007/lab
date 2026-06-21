@@ -77,4 +77,17 @@
   };
 
   system.stateVersion = "26.05";
+
+
+  {
+  services.smartd = {
+    enable = true;
+    devices = [
+      {
+        device = "/dev/disk/by-id/ata-SK_hynix_SC311_SATA_128GB_MI7AN09771070B81G"; # FIXME: Change this to your actual disk
+      }
+    ];
+  };
 }
+}
+
