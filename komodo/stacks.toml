@@ -89,3 +89,14 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/mc"
+
+[[stack]]
+name = "backup"
+description = "backup stack"
+deploy = true
+tags = ["backup"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/backup"

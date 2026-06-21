@@ -1,0 +1,22 @@
+services:
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    volumes:
+      - backrest-data:/data
+      - backrest-config:/config
+      - backrest-cache:/cache
+      - backrest-tmp:/tmp
+      - /var/lib/docker/volumes:/userdata:ro
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+    ports:
+      - "9898:9898"
+    restart: unless-stopped
+
+volumes:
+  backrest-data:
+  backrest-config:
+  backrest-cache:
+  backrest-tmp:
