@@ -3,10 +3,15 @@
 services:
   create:
     image: itzg/minecraft-server:latest
+    dns: 
+      - 8.8.8.8
+      - 1.1.1.1
     tty: true
     stdin_open: true
-    network_mode: host
+    ports:
+      - "25565:25565"
     environment:
+      JVM_OPTS: "-Dio.netty.transport.noNative=true"
       EULA: "TRUE"
       TYPE: "NEOFORGE"
       VERSION: "1.21.1"
