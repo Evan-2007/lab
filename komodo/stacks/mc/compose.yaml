@@ -19,8 +19,6 @@ services:
       MAX_PLAYERS: "25"
       MODRINTH_PROJECTS: |-
         create
-        # create-aeronautics
-        # sable
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
       # MODRINTH_MODPACK: "https://modrinth.com/mod/s"
       MODRINTH_DEFAULT_VERSION_TYPE: "release"
