@@ -20,7 +20,7 @@ services:
       MODRINTH_PROJECTS: |-
         create
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
-      MODRINTH_MODPACK: "https://modrinth.com/modpack/create-customised"
+      MODRINTH_MODPACK: "https://modrinth.com/mod/create-aeronautics"
       MODRINTH_DEFAULT_VERSION_TYPE: "release"
     volumes:
       - "minecraft-create:/data"
