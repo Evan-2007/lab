@@ -19,11 +19,16 @@ services:
       MAX_PLAYERS: "25"
       MODRINTH_PROJECTS: |-
         create
+
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
       # MODRINTH_MODPACK: "https://modrinth.com/mod/s"
       MODRINTH_DEFAULT_VERSION_TYPE: "release"
     volumes:
       - "minecraft-create:/data"
+      - "cc-tweaked"
+      - "cccbridge"
+      - "advancedperipherals"
+      - "create-aeronautics"
 
 volumes:
   minecraft-create: {}
