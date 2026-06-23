@@ -19,7 +19,6 @@ services:
       MAX_PLAYERS: "25"
       MODRINTH_PROJECTS: |-
         create
-        cc-tweaked
         cccbridge
         advancedperipherals
         create-aeronautics
