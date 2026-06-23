@@ -22,7 +22,7 @@ services:
         cc-tweaked
         cccbridge
         advancedperipherals
-        create-aeronautic
+        create-aeronautics
 
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
       # MODRINTH_MODPACK: "https://modrinth.com/mod/s"
