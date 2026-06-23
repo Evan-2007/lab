@@ -20,7 +20,6 @@ services:
       MODRINTH_PROJECTS: |-
         create
         cccbridge
-        advancedperipherals
         create-aeronautics
 
       MODRINTH_DOWNLOAD_DEPENDENCIES: "required"
