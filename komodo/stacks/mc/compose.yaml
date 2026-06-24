@@ -36,7 +36,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      - PASSWORD=password createserver
+      - PASSWORD=createserver
 
       - PROXY_DOMAIN=code-server.my.domain #optional
 
