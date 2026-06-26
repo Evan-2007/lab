@@ -111,3 +111,6 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/access"
+environment = """
+WG_OIDC_CLIENT_SECRET=[[WG_OIDC_CLIENT_SECRET]]
+"""
