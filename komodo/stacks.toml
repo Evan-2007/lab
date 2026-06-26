@@ -100,3 +100,14 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/backup"
+
+[[stack]]
+name = "access"
+description = "access stack"
+deploy = true
+tags = ["access"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/access"
