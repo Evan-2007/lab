@@ -22,6 +22,8 @@ services:
       - "51820:51820/udp"
       - "51821:51821/tcp"
     restart: unless-stopped
+    devices:
+      - /dev/net/tun
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
