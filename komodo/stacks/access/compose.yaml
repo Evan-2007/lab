@@ -35,6 +35,7 @@ services:
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.default.forwarding=1
     environment:
+      - IPTABLES_MODE=nftables
       - OAUTH_PROVIDERS=oidc
       - OAUTH_OIDC_SERVER=https://id.lab.evanc.dev
       - OAUTH_OIDC_CLIENT_ID=a401bbbe-dfd8-4e1b-8ef1-94682514e714
