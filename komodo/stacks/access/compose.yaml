@@ -38,6 +38,8 @@ services:
       - OAUTH_OIDC_CLIENT_ID=a401bbbe-dfd8-4e1b-8ef1-94682514e714
       - OAUTH_OIDC_CLIENT_SECRET=${WG_OIDC_CLIENT_SECRET}
       - OAUTH_OIDC_NAME=Pocket ID
+      - OAUTH_AUTO_LAUNCH=oidc
+      - DISABLE_PASSWORD_AUTH=true
 
 networks:
   wg:
