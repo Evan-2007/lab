@@ -34,7 +34,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.default.forwarding=1
-      - DISABLE_IPV6=true
+      
     environment:
       - IPTABLES_MODE=nftables
       - OAUTH_PROVIDERS=oidc
@@ -44,7 +44,7 @@ services:
       - OAUTH_OIDC_NAME=Pocket ID
       - OAUTH_AUTO_LAUNCH=oidc
       - DISABLE_PASSWORD_AUTH=true
-
+      - DISABLE_IPV6=true
 networks:
   wg:
     driver: bridge
