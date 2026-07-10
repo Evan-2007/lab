@@ -45,6 +45,16 @@ services:
       - OAUTH_AUTO_LAUNCH=oidc
       - DISABLE_PASSWORD_AUTH=true
       - DISABLE_IPV6=true
+    
+
+  newt:
+    image: fosrl/newt
+    container_name: newt
+    restart: unless-stopped
+    environment:
+      - PANGOLIN_ENDPOINT=https://app.pangolin.net
+      - NEWT_ID=${NEWT_ID}
+      - NEWT_SECRET=${NEWT_SECRET}
 networks:
   wg:
     driver: bridge
@@ -54,3 +64,5 @@ networks:
       config:
         - subnet: 10.42.42.0/24
         - subnet: fdcc:ad94:bacf:61a3::/64
+
+

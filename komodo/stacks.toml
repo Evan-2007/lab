@@ -113,4 +113,6 @@ branch = "main"
 run_directory = "./komodo/stacks/access"
 environment = """
 WG_OIDC_CLIENT_SECRET=[[WG_OIDC_CLIENT_SECRET]]
+NEWT_ID=[[NEWT_ID]]
+NEWT_SECRET=[[NEWT_SECRET]]
 """
