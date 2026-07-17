@@ -116,3 +116,23 @@ WG_OIDC_CLIENT_SECRET=[[WG_OIDC_CLIENT_SECRET]]
 NEWT_ID=[[NEWT_ID]]
 NEWT_SECRET=[[NEWT_SECRET]]
 """
+
+[[stack]]
+name = "books"
+description = "reading stack"
+deploy = true
+tags = ["service"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/books"
+environment = """
+APP_PORT=[[BOOKORBIT_APP_PORT]]
+APP_URL=[[BOOKORBIT_APP_URL]]
+JWT_SECRET=[[BOOKORBIT_JWT_SECRET]]
+POSTGRES_DB=[[BOOKORBIT_POSTGRES_DB]]
+POSTGRES_PASSWORD=[[BOOKORBIT_POSTGRES_PASSWORD]]
+POSTGRES_USER=[[BOOKORBIT_POSTGRES_USER]]
+SETUP_BOOTSTRAP_TOKEN=[[BOOKORBIT_SETUP_BOOTSTRAP_TOKEN]]
+"""
