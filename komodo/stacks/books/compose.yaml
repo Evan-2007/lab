@@ -76,7 +76,7 @@ services:
       retries: 10
       start_period: 20s
 
-volunes:
+volumes:
   bookorbit-pgdata:
   books:
     # driver: local
