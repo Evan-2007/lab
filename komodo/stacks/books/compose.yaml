@@ -78,8 +78,6 @@ services:
       start_period: 20s
 
 
-
-  services:
   shelfmark:
     image: ghcr.io/calibrain/shelfmark:latest
     container_name: shelfmark
