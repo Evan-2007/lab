@@ -77,6 +77,24 @@ services:
       retries: 10
       start_period: 20s
 
+
+
+  services:
+  shelfmark:
+    image: ghcr.io/calibrain/shelfmark:latest
+    container_name: shelfmark
+    environment:
+      PUID: 1000
+      PGID: 1000
+    ports:
+      - 8084:8084
+    restart: unless-stopped
+    volumes:
+      - dock:/books # Default destination for book downloads
+      - shelfmark-config:/config # App configuration
+      # Required for torrent / usenet - path must match your download client's volume exactly
+      # - /path/to/downloads:/path/to/downloads
+
 volumes:
   bookorbit-pgdata:
   books:
@@ -87,3 +105,4 @@ volumes:
     #   device: "/mnt/hgst_14tb/Books"
   bookorbit-data:
   dock:
+  shelfmark-config:
