@@ -30,6 +30,7 @@ services:
     volumes:
       - books:/books
       - bookorbit-data:/data
+      - dock:/data/book-dock
     read_only: true
     tmpfs:
       - /tmp
@@ -85,3 +86,4 @@ volumes:
     #   o: "addr=192.168.10.12,rw,nfsvers=4,soft,timeo=30,retrans=3"
     #   device: "/mnt/hgst_14tb/Books"
   bookorbit-data:
+  dock:
