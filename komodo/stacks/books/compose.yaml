@@ -99,7 +99,7 @@ services:
     ports:
       - "8282:8282"
     volumes:
-      - decrypharr-download/mnt:rshared
+      - decrypharr-download:/mnt:rshared
       - decrypharr-config:/app # config.json must be in this directory
     restart: unless-stopped
     devices:
