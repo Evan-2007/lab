@@ -14,7 +14,6 @@
 
  # for decrypharr
   boot.kernelModules = [ "fuse" ];
-  virtualisation.docker.enable = true;
 
   # Add nftables tools
   environment.systemPackages = with pkgs; [
