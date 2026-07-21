@@ -91,7 +91,7 @@ services:
       - dock:/books # Default destination for book downloads
       - shelfmark-config:/config # App configuration
       # Required for torrent / usenet - path must match your download client's volume exactly
-      - /mnt/decrypharr-download:/downloads
+      - /mnt/decrypharr-download:/data/downloads
 
   decypharr:
     image: cy01/blackhole:latest
@@ -99,7 +99,7 @@ services:
     ports:
       - "8282:8282"
     volumes:
-      - rdt-download:/data/downloads
+      - /mnt/decrypharr-download:/data/downloads
       - decrypharr-config:/app # config.json must be in this directory
     restart: unless-stopped
     devices:
