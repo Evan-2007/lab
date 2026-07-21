@@ -99,7 +99,7 @@ services:
     ports:
       - "8282:8282"
     volumes:
-      - /mnt/decrypharr-download:/mnt:rshared
+      - rdt-download:/data/downloads
       - decrypharr-config:/app # config.json must be in this directory
     restart: unless-stopped
     devices:
@@ -108,6 +108,26 @@ services:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+
+  rdtclient:
+    image: rogerfar/rdtclient
+    container_name: rdtclient
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - rdt-data:/data/db
+      - rdt-download:/data/downloads
+    logging:
+       driver: json-file
+       options:
+          max-size: 10m
+    ports:
+      - 6500:6500
+    restart: unless-stopped
+
+
 volumes:
   bookorbit-pgdata:
   books:
@@ -121,3 +141,5 @@ volumes:
   shelfmark-config:
   decrypharr-config:
   decrypharr-download:
+  rdt-download:
+  rdt-data:
