@@ -12,6 +12,10 @@
   virtualisation.oci-containers.backend = "docker";
   users.users.evan.extraGroups = [ "docker" ];
 
+ # for decrypharr
+  boot.kernelModules = [ "fuse" ];
+  virtualisation.docker.enable = true;
+
   # Add nftables tools
   environment.systemPackages = with pkgs; [
     nftables  
