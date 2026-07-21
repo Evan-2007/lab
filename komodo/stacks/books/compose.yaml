@@ -101,6 +101,7 @@ services:
     volumes:
       - /mnt/decrypharr-download:/mnt/decrypharr-download:rshared
       - /mnt/decrypharr-dfs:/mnt/dfs:rshared
+      - rdt-download:/data/downloads
       - decrypharr-config:/app # config.json must be in this directory
     restart: unless-stopped
     devices:
