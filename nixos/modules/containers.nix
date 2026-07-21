@@ -14,6 +14,7 @@
 
  # for decrypharr
   boot.kernelModules = [ "fuse" ];
+  programs.fuse.enable = true;
 
   # Add nftables tools
   environment.systemPackages = with pkgs; [
