@@ -17,31 +17,30 @@ spec:
     remediation:
       retries: 3
   values:
-    operator:
-      metrics:
+    metrics:
+      enabled: true
+      serviceMonitor:
         enabled: true
-        serviceMonitor:
-          enabled: true    # you already have kube-prometheus-stack CRDs, so this is free
 
     instance:
       name: pocket-id
+      serviceMonitor:
+        enabled: false
       spec:
         image: ghcr.io/pocket-id/pocket-id:v2.7.0-distroless
         appUrl: https://id.${DOMAIN_PUBLIC}
-        trustProxy: true
         encryptionKey:
           valueFrom:
             secretKeyRef:
               name: pocket-id
               key: ENCRYPTION_KEY
-        route:
-          enabled: false      # you're on Traefik IngressRoute, not Gateway API — see ingressroute.yaml
+        env:
+          - name: TRUST_PROXY
+            value: "true"
         persistence:
           enabled: true
-          storageClassName: truenas-iscsi
+          storageClass: truenas-iscsi
           accessModes: [ReadWriteOnce]
           size: 1Gi
         metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
+          enabled: true      
