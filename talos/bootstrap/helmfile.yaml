@@ -1,0 +1,32 @@
+# Pre-Flux bootstrap. This is the ONLY imperative step in the rebuild.
+# Installs the CNI (without which no pod can schedule) and flux-operator,
+# after which everything else is GitOps.
+#
+# Cilium's chart version here MUST match kubernetes/apps/infrastructure/cilium/app/helmrelease.yaml
+# or Flux will upgrade Cilium out from under a freshly bootstrapped cluster.
+
+repositories:
+  - name: cilium
+    url: https://helm.cilium.io
+
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+  force: false
+
+releases:
+  - name: cilium
+    namespace: kube-system
+    chart: cilium/cilium
+    version: 1.19.6
+    values:
+      - ../kubernetes/apps/infrastructure/cilium/app/helm-values.yaml
+
+  - name: flux-operator
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+    version: 0.57.0
+    createNamespace: true
+    needs:
+      - kube-system/cilium

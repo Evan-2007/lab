@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data: 
+  TRUENAS_IP: "192.168.10.12"
+  ISCSI_DATASET: "hgst_14tb/k8s/iscsi/v"
+  ISCSI_SNAPSHOT_DATASET: "hgst_14tb/k8s/iscsi/s"
+  LB_RANGE_START: "192.168.20.200"
+  LB_RANGE_STOP: "192.168.20.220"
+  TRAEFIK_LB_IP: "192.168.20.200"
+  DOMAIN_LOCAL: "k8s.lan"
+  DOMAIN_PUBLIC: "lab.evanc.dev"
+  TECHNITIUM_LB_IP: "192.168.20.201"

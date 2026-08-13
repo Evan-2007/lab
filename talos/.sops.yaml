@@ -1,4 +1,12 @@
 creation_rules:
-  - path_regex: (patches/.*\.yaml|.*\.sops\.yaml)$
-    age: >-
-      age1x9w6xyj6qhrwkdt2cc8rhal3v3v4ju25arrf8rzv3vydqqrmm33qnvj0zs
+  # Talos secrets: only talhelper reads this file, so encrypting every value is fine.
+  - path_regex: talsecret\.sops\.yaml$
+    age: "age1306vmgtph4w0ttdgxvp5lkn90da632qandaad2875hg0hrn9yfsqmta89v"
+
+  # Kubernetes manifests: kustomize-controller has to read apiVersion/kind/metadata
+  # to identify a resource BEFORE it can decrypt it. The previous catch-all rule
+  # encrypted those too, which makes Flux unable to parse the manifest at all.
+  # Restrict encryption to the payload fields.
+  - path_regex: kubernetes/.*\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: "age1306vmgtph4w0ttdgxvp5lkn90da632qandaad2875hg0hrn9yfsqmta89v"

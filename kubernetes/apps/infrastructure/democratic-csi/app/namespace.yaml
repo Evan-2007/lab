@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: democratic-csi
+  labels:
+    # democratic-csi's node pods need hostPID and privileged mounts. Talos
+    # enforces the "baseline" Pod Security Standard by default, which rejects
+    # them outright — with an admission error that does not obviously point here.
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged

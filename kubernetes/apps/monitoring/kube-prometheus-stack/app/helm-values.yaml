@@ -1,0 +1,51 @@
+kubeProxy:
+  enabled: false
+
+
+kubeEtcd:
+  enabled: true
+  endpoints:
+    - 192.168.20.10
+    - 192.168.20.11
+    - 192.168.20.12
+
+prometheus:
+  prometheusSpec:
+    retention: 10d
+    retentionSize: 18GiB
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: truenas-iscsi
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 20Gi
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+    resources:
+      requests: {cpu: 200m, memory: 1Gi}
+      limits: {memory: 3Gi}
+
+grafana:
+  admin:
+    existingSecret: grafana-admin     
+  persistence:
+    enabled: true                     
+    storageClassName: truenas-iscsi
+    accessModes: [ReadWriteOnce]
+    size: 5Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: truenas-iscsi
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 2Gi

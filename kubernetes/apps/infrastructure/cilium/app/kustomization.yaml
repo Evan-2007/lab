@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+resources:
+  - helmrelease.yaml
+  
+
+# helm-values.yaml is the single source of truth: bootstrap/helmfile.yaml reads
+# it directly from disk, and Flux reads the same file via this ConfigMap.
+# Editing one file keeps bootstrap and GitOps in lockstep.
+configMapGenerator:
+  - name: cilium-helm-values
+    files:
+      - values.yaml=helm-values.yaml
+
+# Stable name so the HelmRelease's valuesFrom reference doesn't break.
+# helm-controller hashes valuesFrom content into the release checksum, so
+# value changes still trigger an upgrade without a name suffix.
+generatorOptions:
+  disableNameSuffixHash: true

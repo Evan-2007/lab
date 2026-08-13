@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cilium
+  namespace: flux-system
+spec:
+  interval: 1h
+  # Retry quickly after transient failures instead of waiting a full hour —
+  # node reboots briefly break pod->ClusterIP traffic while Cilium reprograms.
+  retryInterval: 2m
+  path: ./kubernetes/apps/infrastructure/cilium/app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  # Deliberately false. If this path ever goes missing from git, pruning would
+  # delete the CNI and take the cluster with it. Cilium gets its own
+  # Kustomization precisely so it can opt out of the pruning everything else uses.
+  prune: false
+  wait: true
+  timeout: 10m

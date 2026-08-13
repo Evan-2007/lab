@@ -1,0 +1,33 @@
+---
+# Applied once by `task flux` during bootstrap. flux-operator reconciles this
+# into the actual Flux controllers, then Flux takes over from git.
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: "1h"
+    fluxcd.controlplane.io/reconcileTimeout: "5m"
+spec:
+  distribution:
+    version: "2.9.x"
+    registry: "ghcr.io/fluxcd"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+  cluster:
+    type: kubernetes
+    multitenant: false
+    networkPolicy: true
+    domain: "cluster.local"
+  sync:
+    kind: GitRepository
+    # TODO: confirm this matches your actual remote before first bootstrap.
+    # If the repo is private, also create the auth secret and set `secretRef`:
+    #   flux create secret git flux-system --url=<url> --private-key-file=<key>
+    url: "https://github.com/Evan-2007/lab.git"
+    ref: "refs/heads/main"
+    path: "kubernetes/flux/cluster"

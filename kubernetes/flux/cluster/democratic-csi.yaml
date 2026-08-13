@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: democratic-csi
+  namespace: flux-system
+spec:
+  interval: 1h
+  # Without this, retryInterval defaults to interval — so a transient failure
+  # (e.g. Cilium reprogramming during a node reboot) parks the Kustomization
+  # in a failed state for a full hour.
+  retryInterval: 2m
+  path: ./kubernetes/apps/infrastructure/democratic-csi/app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  dependsOn:
+    - name: cilium
+  prune: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+  wait: true
+  timeout: 15m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

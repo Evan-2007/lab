@@ -1,0 +1,9 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: lan-pool
+spec:
+  blocks:
+    - start: "${LB_RANGE_START}"
+      stop: "${LB_RANGE_STOP}"

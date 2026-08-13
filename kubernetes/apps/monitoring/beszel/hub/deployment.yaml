@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beszel-hub
+  namespace: beszel
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: beszel-hub
+  template:
+    metadata:
+      labels:
+        app: beszel-hub
+    spec:
+      containers:
+        - name: beszel-hub
+          image: henrygd/beszel:0.18.7
+          env:
+            # Beszel uses this to build links and agent registration URLs,
+            # so it must be the externally reachable address, not localhost.
+            - name: APP_URL
+              value: "http://beszel.${DOMAIN_LOCAL}"
+          ports:
+            - name: http
+              containerPort: 8090
+          volumeMounts:
+            - name: data
+              mountPath: /beszel_data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 1Gi
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: beszel-data

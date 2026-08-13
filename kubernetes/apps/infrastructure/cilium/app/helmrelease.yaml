@@ -1,0 +1,42 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 1h
+  url: https://helm.cilium.io
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 1h
+  # releaseName + namespace must match what bootstrap/helmfile.yaml installed.
+  # helm-controller keys off the Helm storage secret, so an identical
+  # name/namespace pair makes the first reconcile a no-op upgrade (adoption)
+  # rather than a conflicting install.
+  releaseName: cilium
+  chart:
+    spec:
+      chart: cilium
+      version: 1.19.6
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: kube-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    # Never let a failed Cilium upgrade roll back and take the CNI with it.
+    remediation:
+      retries: 3
+      remediateLastFailure: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: cilium-helm-values
+      valuesKey: values.yaml

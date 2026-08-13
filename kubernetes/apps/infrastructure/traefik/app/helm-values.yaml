@@ -1,0 +1,29 @@
+deployment:
+  replicas: 1
+
+service:
+  spec:
+    type: LoadBalancer
+  annotations:
+    io.cilium/lb-ipam-ips: "${TRAEFIK_LB_IP}"
+
+providers:
+  kubernetesCRD:
+    enabled: true
+    allowCrossNamespace: true
+  kubernetesGateway:
+    enabled: false
+
+ingressRoute:
+  dashboard:
+    enabled: true
+  
+ports: 
+  traefik:
+    expose:
+      default: true
+
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: wildcard-origin

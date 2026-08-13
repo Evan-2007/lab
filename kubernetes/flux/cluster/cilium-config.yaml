@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cilium-config
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/infrastructure/cilium/config
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+  dependsOn:
+    - name: cilium
+  prune: true
+  wait: true
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings

@@ -1,0 +1,87 @@
+
+csiDriver:
+  name: "org.democratic-csi.iscsi"
+
+controller:
+  driver:
+    image:
+      tag: next
+
+node:
+  hostPID: true
+  driver:
+    # Talos-specific. The CSI node pod cannot run its own iscsiadm; these make it
+    # nsenter into the host binary provided by the iscsi-tools extension.
+    extraEnv:
+      - name: ISCSIADM_HOST_STRATEGY
+        value: nsenter
+      - name: ISCSIADM_HOST_PATH
+        value: /usr/local/sbin/iscsiadm
+    iscsiDirHostPath: /etc/iscsi
+    # iscsiDirHostPathType: ""
+
+storageClasses:
+  - name: truenas-iscsi
+    defaultClass: true
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      fsType: ext4
+      detachedVolumesFromSnapshots: "false"
+    mountOptions: []
+    secrets:
+      provisioner-secret:
+      controller-publish-secret:
+      node-stage-secret:
+      node-publish-secret:
+      controller-expand-secret:
+
+# volumeSnapshotClasses is deliberately omitted. The snapshot.storage.k8s.io CRDs
+# are not installed on this cluster and neither Talos nor this chart provides
+# them. Declaring a VolumeSnapshotClass without them fails the Kustomization.
+# To enable: install external-snapshotter (CRDs + snapshot-controller) as its own
+# Flux Kustomization, add it to dependsOn, then uncomment:
+#
+# volumeSnapshotClasses:
+#   - name: truenas-iscsi
+#     parameters:
+#       detachedSnapshots: "true"
+
+driver:
+  config:
+    driver: freenas-api-iscsi
+    instance_id:
+    httpConnection:
+      protocol: https
+      host: ${TRUENAS_IP}
+      port: 443
+      allowInsecure: true
+      apiVersion: 2
+      # apiKey supplied by secret.sops.yaml
+    zfs:
+      datasetParentName: ${ISCSI_DATASET}
+      detachedSnapshotsDatasetParentName: ${ISCSI_SNAPSHOT_DATASET}
+      zvolCompression:
+      zvolDedup:
+      zvolEnableReservation: false
+      zvolBlocksize:
+    iscsi:
+      targetPortal: "${TRUENAS_IP}:3260"
+      targetPortals: []
+      interface:
+      namePrefix: csi-
+      nameSuffix: "-cluster1"
+      targetGroups:
+        #  cli -c "sharing iscsi portal query" or "sudo midclt call iscsi.portal.query | jq"
+        #       cli -c "sharing iscsi initiator query" might not work  "sudo midclt call iscsi.initiator.query | jq" this works
+        - targetGroupPortalGroup: 1
+          targetGroupInitiatorGroup: 2
+          targetGroupAuthType: None
+          targetGroupAuthGroup:
+      extentInsecureTpc: true
+      extentXenCompat: false
+      extentDisablePhysicalBlocksize: true
+      extentBlocksize: 512
+      extentRpm: "SSD"
+      extentAvailThreshold: 0

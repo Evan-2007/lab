@@ -1,0 +1,22 @@
+ipam:
+  mode: kubernetes
+kubeProxyReplacement: true
+# KubePrism — Cilium can't use the kubernetes Service IP before it's providing networking
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+securityContext:
+  capabilities:
+    ciliumAgent:
+      [CHOWN, KILL, NET_ADMIN, NET_RAW, IPC_LOCK, SYS_ADMIN, SYS_RESOURCE,
+       DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    cleanCiliumState: [NET_ADMIN, SYS_ADMIN, SYS_RESOURCE]
+l2announcements: 
+  enabled: true
+
+k8sClientRateLimit: 
+  qps: 20
+  burst: 100

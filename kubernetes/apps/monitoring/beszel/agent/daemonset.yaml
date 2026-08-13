@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: beszel-agent
+  namespace: beszel-agent
+spec:
+  selector:
+    matchLabels:
+      app: beszel-agent
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: beszel-agent
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+      containers:
+        - name: beszel-agent
+          image: henrygd/beszel-agent:0.18.7
+          env:
+            - name: HUB_URL
+              value: "http://beszel-hub.beszel.svc.cluster.local:8090"
+            - name: KEY
+              value: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMbFPZK7328N+K42AumrbrAl/ZaI97s0Bem143Giuu2N"
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: beszel-agent-token
+                  key: token
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
