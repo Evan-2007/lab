@@ -5,7 +5,7 @@ metadata:
   name: lan-l2
 spec:
   interfaces:
-    - ^ens[a-z0-9]+$
+    - ^en[a-z0-9]+$
   externalIPs: false
   loadBalancerIPs: true
 
