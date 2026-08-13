@@ -34,9 +34,6 @@ spec:
             secretKeyRef:
               name: pocket-id
               key: ENCRYPTION_KEY
-        env:
-          - name: TRUST_PROXY
-            value: "true"
         persistence:
           enabled: true
           storageClass: truenas-iscsi
