@@ -35,7 +35,7 @@ controlPlane:
         etcd:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
-  talosImageURL: factory.talos.dev/metal-installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+  talosImageURL: factory.talos.dev/metal-installer/36cd6536eaec8ba802be2d38974108359069cedba8857302f69792b26b87c010
 
 
 
@@ -43,12 +43,12 @@ nodes:
   - hostname: cp1
     controlPlane: true
     ipAddress: 192.168.20.10
-    installDisk: /dev/sda
+    installDisk: /dev/sdb
   - hostname: cp2
     controlPlane: true
     ipAddress: 192.168.20.11
-    installDisk: /dev/sda
+    installDisk: /dev/sdb
   - hostname: cp3
     controlPlane: true
     ipAddress: 192.168.20.12
-    installDisk: /dev/sda
+    installDisk: /dev/sdb

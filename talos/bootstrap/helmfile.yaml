@@ -21,7 +21,7 @@ releases:
     chart: cilium/cilium
     version: 1.19.6
     values:
-      - ../kubernetes/apps/infrastructure/cilium/app/helm-values.yaml
+      - ../../kubernetes/apps/infrastructure/cilium/app/helm-values.yaml
 
   - name: flux-operator
     namespace: flux-system
