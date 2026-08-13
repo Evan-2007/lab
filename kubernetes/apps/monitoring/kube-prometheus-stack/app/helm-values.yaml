@@ -38,6 +38,26 @@ grafana:
     storageClassName: truenas-iscsi
     accessModes: [ReadWriteOnce]
     size: 5Gi
+  envValueFrom:
+    GF_AUTH_GENERIC_OAUTH_CLIENT_ID:
+      secretKeyRef: {name: grafana-oidc, key: client_id}
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+      secretKeyRef: {name: grafana-oidc, key: client_secret}
+    GF_AUTH_GENERIC_OAUTH_AUTH_URL:
+      secretKeyRef: {name: grafana-oidc, key: authorization_url}
+    GF_AUTH_GENERIC_OAUTH_TOKEN_URL:
+      secretKeyRef: {name: grafana-oidc, key: token_url}
+    GF_AUTH_GENERIC_OAUTH_API_URL:
+      secretKeyRef: {name: grafana-oidc, key: userinfo_url}
+  grafana.ini:
+    server:
+      root_url: https://grafana.${DOMAIN_PUBLIC}
+    auth.generic_oauth:
+      enabled: true
+      name: Pocket ID
+      allow_sign_up: true
+      use_pkce: true
+      scopes: "openid profile email groups"
 
 alertmanager:
   alertmanagerSpec:

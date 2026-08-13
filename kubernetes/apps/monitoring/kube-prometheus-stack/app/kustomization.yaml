@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - ingressroute.yaml
   - secret.sops.yaml
+  - oidcclient.yaml
 
 configMapGenerator:
   - name: kps-helm-values
