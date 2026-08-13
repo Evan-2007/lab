@@ -2,9 +2,9 @@ name: Update flake inputs
 on:
     schedule:
         - cron: "0 0 * * 0"  # every Sunday at midnight
-    push:
-        branches:
-            - main
+    # push:
+    #     branches:
+    #         - main
 jobs:
   update:
     runs-on: ubuntu-latest
