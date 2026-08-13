@@ -1,0 +1,193 @@
+---
+version: '3'
+
+# Pinning these here means the "talos config file is empty" class of problem
+# can't recur — no reliance on ~/.talos/config or ~/.kube/config.
+env:
+  TALOSCONFIG: '{{.ROOT_DIR}}/clusterconfig/talosconfig'
+  KUBECONFIG: '{{.ROOT_DIR}}/kubeconfig'
+  SOPS_AGE_KEY_FILE: '{{.HOME}}/.config/sops/age/keys.txt'
+
+vars:
+  # Node that etcd is bootstrapped on and that kubeconfig is pulled from.
+  CONTROLLER: '192.168.20.10'
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+
+  # ---------------------------------------------------------------- talos ---
+
+  config:
+    desc: Regenerate Talos machine configs from talconfig.yaml
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - talhelper genconfig
+
+  apply-insecure:
+    desc: Apply machine configs to nodes in maintenance mode
+    dir: '{{.ROOT_DIR}}'
+    deps: [config]
+    cmds:
+      - talhelper gencommand apply --extra-flags=--insecure | bash -eu -o pipefail
+
+  apply:
+    desc: Apply machine configs to nodes in maintenance mode
+    dir: '{{.ROOT_DIR}}'
+    deps: [config]
+    cmds:
+      - talhelper gencommand apply | bash -eu -o pipefail
+
+
+  bootstrap-etcd:
+    desc: Bootstrap etcd on the first control plane node
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      # Nodes install to disk and reboot after apply-config, so the first few
+      # attempts are expected to fail. Retry rather than guessing a sleep.
+      - |
+        for i in $(seq 1 60); do
+          if out=$(talhelper gencommand bootstrap | bash 2>&1); then
+            echo "etcd bootstrapped"; exit 0
+          fi
+          case "$out" in
+            *AlreadyExists*|*already*) echo "etcd already bootstrapped"; exit 0 ;;
+          esac
+          echo "[$i/60] waiting for {{.CONTROLLER}} to accept bootstrap..."
+          sleep 10
+        done
+        echo "timed out waiting for etcd bootstrap"; exit 1
+
+  kubeconfig:
+    desc: Fetch kubeconfig from the cluster
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - talosctl kubeconfig --nodes {{.CONTROLLER}} --force '{{.ROOT_DIR}}/kubeconfig'
+
+  health:
+    desc: Talos-level cluster health check
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - talosctl health --nodes {{.CONTROLLER}} --wait-timeout 10m
+
+  # ------------------------------------------------------------ bootstrap ---
+
+  bootstrap-apps:
+    desc: Install Cilium + flux-operator (the one imperative step)
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - |
+        until kubectl get --raw /readyz >/dev/null 2>&1; do
+          echo "waiting for kube-apiserver..."; sleep 5
+        done
+      # Nodes stay NotReady until this completes — that is expected, not a failure.
+      - helmfile --file bootstrap/helmfile.yaml sync
+      - kubectl -n kube-system rollout status daemonset/cilium --timeout=10m
+
+  sops-secret:
+    desc: Push the age key into the cluster so Flux can decrypt
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      # Must exist before Flux reconciles anything encrypted, so it belongs to
+      # bootstrap rather than to Flux itself.
+      - kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
+      - |
+        kubectl -n flux-system create secret generic sops-age \
+          --from-file=age.agekey="$SOPS_AGE_KEY_FILE" \
+          --dry-run=client -o yaml | kubectl apply -f -
+
+  flux:
+    desc: Hand the cluster over to GitOps
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - kubectl apply -f kubernetes/flux/flux-instance.yaml
+
+  # ---------------------------------------------------------------- whole ---
+
+  up:
+    desc: Full rebuild from nodes in maintenance mode
+    cmds:
+      - task: apply-insecure
+      - task: bootstrap-etcd
+      - task: kubeconfig
+      - task: bootstrap-apps
+      - task: sops-secret
+      - task: flux
+
+  down:
+    desc: DESTRUCTIVE — wipe all nodes back to maintenance mode
+    dir: '{{.ROOT_DIR}}'
+    prompt: This wipes STATE and EPHEMERAL on all three nodes. Continue?
+    cmds:
+      # talsecret.sops.yaml is deliberately untouched, so PKI stays stable
+      # across rebuilds and the existing talosconfig keeps working.
+      - talhelper gencommand reset --extra-flags="--graceful=false --reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL" | bash -eu -o pipefail
+      - rm -f '{{.ROOT_DIR}}/kubeconfig'
+
+  reconcile: 
+    cmds: 
+      - flux reconcile kustomization flux-system --with-source
+
+  getpods:
+    cmds: 
+      - kubectl get pods -A -o wide
+  # ------------------------------------------------------------- validate ---
+
+
+
+  validate:
+    desc: Server-side dry-run every kustomize dir — catches schema typos pre-push
+    dir: '{{.ROOT_DIR}}'
+    silent: true
+    cmds:
+      # Server dry-run does NOT persist Namespaces, so namespaced objects in the
+      # same payload fail with "namespaces not found". Create them for real
+      # first — they're declared in git, so Flux adopts them on next reconcile.
+      # Server-side apply avoids leaving a last-applied-configuration annotation,
+      # which would then conflict with Flux's own server-side applies.
+      - |
+        find kubernetes -name namespace.yaml -print0 \
+          | xargs -0 -I{} kubectl apply --server-side --force-conflicts -f {} >/dev/null
+      # Only server-side validation catches unknown fields. `--dry-run=client`
+      # does no schema checking at all in kubectl 1.36+ and silently passes
+      # typos like `matchLables` or a misspelled CRD field.
+      # --force-conflicts is safe here: a dry run writes nothing. Without it,
+      # objects Flux already owns fail on field-manager conflicts.
+      - |
+        set -u
+        fail=0
+        for dir in $(find kubernetes -name kustomization.yaml -exec dirname {} \; | sort); do
+          printf '%-50s ' "$dir"
+          if ! rendered=$(kubectl kustomize "$dir" 2>&1); then
+            echo "KUSTOMIZE FAILED"
+            printf '%s\n' "$rendered" | sed 's/^/    /'
+            fail=1
+            continue
+          fi
+          # sops-encrypted docs need two fixups before the API server will look
+          # at them, neither of which affects what Flux actually applies:
+          #   1. the top-level `sops:` key is not in any Kubernetes schema
+          #   2. `data:` values must be base64; sops replaces them with ENC[...]
+          #      (stringData is unaffected, which is why some secrets pass)
+          rendered=$(printf '%s\n' "$rendered" | python3 -c '
+        import sys, yaml
+        docs = [d for d in yaml.safe_load_all(sys.stdin) if d]
+        for d in docs:
+            encrypted = d.pop("sops", None) is not None
+            if encrypted and isinstance(d.get("data"), dict):
+                d["data"] = {k: "cGxhY2Vob2xkZXI=" for k in d["data"]}
+        yaml.safe_dump_all(docs, sys.stdout)')
+          if out=$(printf '%s\n' "$rendered" \
+              | kubectl apply --server-side --force-conflicts --dry-run=server -f - 2>&1); then
+            echo "ok"
+          else
+            echo "FAILED"
+            printf '%s\n' "$out" | grep -v 'serverside-applied' | sed 's/^/    /'
+            fail=1
+          fi
+        done
+        exit $fail
+
+  
