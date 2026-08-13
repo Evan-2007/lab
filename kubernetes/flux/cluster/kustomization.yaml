@@ -11,3 +11,4 @@ resources:
   - beszel-agent.yaml
   - technitium.yaml
   - kube-prometheus-stack.yaml
+  - pocket-id.yaml

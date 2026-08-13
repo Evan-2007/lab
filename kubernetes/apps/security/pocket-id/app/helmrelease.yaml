@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pocket-id-operator
+  namespace: pocket-id
+spec:
+  interval: 1h
+  maxHistory: 1
+  chartRef:
+    kind: OCIRepository
+    name: pocket-id-operator
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    operator:
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true    # you already have kube-prometheus-stack CRDs, so this is free
+
+    instance:
+      name: pocket-id
+      spec:
+        image: ghcr.io/pocket-id/pocket-id:v2.7.0-distroless
+        appUrl: https://id.${DOMAIN_PUBLIC}
+        trustProxy: true
+        encryptionKey:
+          valueFrom:
+            secretKeyRef:
+              name: pocket-id
+              key: ENCRYPTION_KEY
+        route:
+          enabled: false      # you're on Traefik IngressRoute, not Gateway API — see ingressroute.yaml
+        persistence:
+          enabled: true
+          storageClassName: truenas-iscsi
+          accessModes: [ReadWriteOnce]
+          size: 1Gi
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
