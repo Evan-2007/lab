@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rdt-external
+  namespace: traefik
+spec:
+  type: ClusterIP
+  ports:
+    - name: web
+      port: 6500
+      targetPort: 6500
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: rdt-external
+  namespace: traefik
+subsets:
+  - addresses:
+      - ip: ${DOCKER_HOST_IP}
+    ports:
+      - name: web
+        port: 6500
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rdt-external
+  namespace: traefik
+spec:
+  entryPoints: [websecure]
+  routes:
+    - match: Host(`rdt.${DOMAIN_PUBLIC}`)
+      kind: Rule
+      services:
+        - name: rdt-external
+          port: 6500
+  tls: {}
