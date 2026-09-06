@@ -38,15 +38,15 @@ run_directory = "./komodo/stacks/uptime-kuma"
 
 
 [[stack]]
-name = "npm"
-description = "nginx proxy manager stack"
+name = "proxy"
+description = "reverse proxy stack"
 deploy = true
 tags = ["ingress"]
 [stack.config]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/npm"
+run_directory = "./komodo/stacks/traefik"
 
 [[stack]]
 name = "crafty-controller"

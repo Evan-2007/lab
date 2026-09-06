@@ -24,6 +24,11 @@ services:
       NODE_MAX_OLD_SPACE_SIZE: ${NODE_MAX_OLD_SPACE_SIZE:-auto}
       BOOK_DOCK_PATH: ${BOOK_DOCK_PATH:-}
       LIBRARY_BROWSE_ROOT: ${LIBRARY_BROWSE_ROOT:-}
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.bookorbit.rule: "Host(`${APP_URL?required}`)"
+      traefik.http.routers.bookorbit.entrypoints: "web"
+      traefik.http.services.bookorbit.loadbalancer.server.port: "${PORT:-3000}"
     depends_on:
       postgres:
         condition: service_healthy
