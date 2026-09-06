@@ -1,0 +1,17 @@
+---
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: technitium
+  namespace: technitium
+spec:
+  name: Technitium
+  description: "Technitium DNS Web"
+  callbackUrls:
+    # - https://technitium.${DOMAIN_PUBLIC}/login/generic_oauth
+    - http://technitium.${DOMAIN_LOCAL}/sso/callback
+  pkceEnabled: false
+  # skipConsent: true
+  secret:
+    enabled: true
+    name: technitium-oidc

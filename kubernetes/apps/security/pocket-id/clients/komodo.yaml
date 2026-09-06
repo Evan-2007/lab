@@ -1,0 +1,16 @@
+---
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: komodo
+  namespace: traefik
+spec:
+  name: Komodo
+  description: "Komodo Docker management"
+  callbackUrls:
+    - https://komodo.${DOMAIN_PUBLIC}/auth/oidc/callback
+  pkceEnabled: true
+  # skipConsent: true
+  secret:
+    enabled: true
+    name: komodo-oidc

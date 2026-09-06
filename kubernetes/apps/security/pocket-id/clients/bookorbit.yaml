@@ -1,0 +1,16 @@
+---
+apiVersion: pocketid.internal/v1alpha1
+kind: PocketIDOIDCClient
+metadata:
+  name: bookorbit
+  namespace: traefik
+spec:
+  name: BookOrbit
+  description: "BookOrbit library platform"
+  callbackUrls:
+    - https://books.${DOMAIN_PUBLIC}/oauth2-callback
+  pkceEnabled: true
+  # skipConsent: true
+  secret:
+    enabled: true
+    name: bookorbit-oidc

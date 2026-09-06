@@ -1,0 +1,27 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: pocket-id-clients
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 2m
+  path: ./kubernetes/apps/security/pocket-id/clients
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+  dependsOn:
+    - name: pocket-id
+  prune: true
+  wait: true
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

@@ -13,3 +13,4 @@ resources:
   - technitium.yaml
   - kube-prometheus-stack.yaml
   - pocket-id.yaml
+  - pocket-id-clients.yaml
