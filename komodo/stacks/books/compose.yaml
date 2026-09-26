@@ -24,6 +24,7 @@ services:
       NODE_MAX_OLD_SPACE_SIZE: ${NODE_MAX_OLD_SPACE_SIZE:-auto}
       BOOK_DOCK_PATH: ${BOOK_DOCK_PATH:-}
       LIBRARY_BROWSE_ROOT: ${LIBRARY_BROWSE_ROOT:-}
+      BOOK_REQUEST_ENCRYPTION_KEY: ${BOOK_REQUEST_ENCRYPTION_KEY}
     labels:
       traefik.enable: "true"
       traefik.http.routers.bookorbit.rule: "Host(`${APP_URL?required}`)"
