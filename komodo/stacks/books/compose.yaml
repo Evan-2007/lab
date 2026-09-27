@@ -37,6 +37,7 @@ services:
       - books:/books
       - bookorbit-data:/data
       - dock:/data/book-dock
+      - rdt-download:/data/downloads
     read_only: true
     tmpfs:
       - /tmp
