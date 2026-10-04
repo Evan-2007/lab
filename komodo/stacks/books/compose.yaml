@@ -101,25 +101,25 @@ services:
       - /mnt/decrypharr-download:/mnt/decrypharr-download:rshared
       - rdt-download:/data/downloads
 
-  services:
-    abs-kosync:
-      container_name: bookbridge
-      image: ghcr.io/cporcellijr/bookbridge:latest
-      restart: unless-stopped
-      ports:
-        - "8080:5757"
-        # - "5758:5758"  # Optional: expose the sync-only port when using KOSYNC_PORT=5758
-      environment:
-        - TZ=America/New_York
-        - LOG_LEVEL=INFO
-        # - KOSYNC_PORT=5758  # Optional: enable split-port mode
-        # Configure ABS, KOSync, BookFusion, Grimmory, BookOrbit, CWA, Storyteller, and other services in the Web UI.
-      volumes:
-        - ./data:/data
-        - books:/books
-        # - /path/to/other/library:/calibre_library:ro         # Optional: a second ebook library (also set EXTRA_EBOOK_DIRS)
-        # - /path/to/storyteller/library:/storyteller_library  # Optional: local Storyteller fallback/download access
-        # - /path/to/storyteller/assets:/storyteller/assets    # Optional: Storyteller transcript ingest
+
+  abs-kosync:
+    container_name: bookbridge
+    image: ghcr.io/cporcellijr/bookbridge:latest
+    restart: unless-stopped
+    ports:
+      - "8080:5757"
+      # - "5758:5758"  # Optional: expose the sync-only port when using KOSYNC_PORT=5758
+    environment:
+      - TZ=America/New_York
+      - LOG_LEVEL=INFO
+      # - KOSYNC_PORT=5758  # Optional: enable split-port mode
+      # Configure ABS, KOSync, BookFusion, Grimmory, BookOrbit, CWA, Storyteller, and other services in the Web UI.
+    volumes:
+      - ./data:/data
+      - bookbridge-data:/books
+      # - /path/to/other/library:/calibre_library:ro         # Optional: a second ebook library (also set EXTRA_EBOOK_DIRS)
+      # - /path/to/storyteller/library:/storyteller_library  # Optional: local Storyteller fallback/download access
+      # - /path/to/storyteller/assets:/storyteller/assets    # Optional: Storyteller transcript ingest
 
 
   rdtclient:
@@ -156,3 +156,4 @@ volumes:
   decrypharr-download:
   rdt-download:
   rdt-data:
+  bookbridge-data:
