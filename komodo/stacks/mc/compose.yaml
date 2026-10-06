@@ -2,7 +2,7 @@
 
 services:
   create:
-    image: itzg/minecraft-server:latest
+    image: itzg/minecraft-server:2026.9.2
     dns:
       - 8.8.8.8
       - 1.1.1.1
@@ -30,7 +30,7 @@ services:
       - "minecraft-create:/data"
 
   code-server:
-    image: lscr.io/linuxserver/code-server:latest
+    image: lscr.io/linuxserver/code-server:4.140.0-ls368
     container_name: code-server
     environment:
       - PUID=1000

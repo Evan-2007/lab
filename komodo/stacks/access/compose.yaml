@@ -48,7 +48,7 @@ services:
     
 
   newt:
-    image: fosrl/newt
+    image: fosrl/newt:1.18.1
     container_name: newt
     restart: unless-stopped
     environment:

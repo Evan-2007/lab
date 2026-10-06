@@ -1,6 +1,6 @@
 services:
   tinyauth:
-    image: ghcr.io/tinyauthapp/tinyauth
+    image: ghcr.io/tinyauthapp/tinyauth:v5.2.0
     restart: unless-stopped
     ports:
       - 3000:3000
@@ -23,7 +23,7 @@ services:
     #   traefik.http.middlewares.tinyauth.forwardauth.address: http://tinyauth:3000/api/auth/traefik
 
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v2
+    image: ghcr.io/pocket-id/pocket-id:v2.18.0
     restart: unless-stopped
     ports:
       - 1411:1411
