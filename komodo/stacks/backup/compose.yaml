@@ -1,6 +1,6 @@
 services:
   backrest:
-    image: garethgeorge/backrest:latest
+    image: garethgeorge/backrest:v1.14.1-alpine
     container_name: backrest
     volumes:
       - backrest-data:/data

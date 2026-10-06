@@ -1,6 +1,6 @@
 services:
   bambuddy:
-    image: ghcr.io/maziggy/bambuddy:latest
+    image: ghcr.io/maziggy/bambuddy:1.2.5.7
     container_name: bambuddy
     networks:
       - bambuddy
