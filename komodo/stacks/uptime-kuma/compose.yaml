@@ -23,6 +23,18 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+  
+  autokuma:
+    image: ghcr.io/bigboot/autokuma:latest
+    restart: unless-stopped
+    environment:
+      AUTOKUMA__KUMA__URL: https://uptime.prod.evanc.dev
+      AUTOKUMA__KUMA__USERNAME: ${AUTOKUMA__KUMA__USERNAME}
+      AUTOKUMA__KUMA__PASSWORD: ${AUTOKUMA__KUMA__PASSWORD}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - autokuma-data:/data
+
 
 networks:
   kuma_network:
@@ -31,3 +43,4 @@ networks:
 volumes:
   uptime-kuma-data:
     driver: local
+  autokuma-data:

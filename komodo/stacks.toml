@@ -35,6 +35,10 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/uptime-kuma"
+environment = """
+AUTOKUMA__KUMA__USERNAME=[[AUTOKUMA__KUMA__USERNAME]]
+AUTOKUMA__KUMA__PASSWORD=[[AUTOKUMA__KUMA__PASSWORD]]
+"""
 
 
 [[stack]]
