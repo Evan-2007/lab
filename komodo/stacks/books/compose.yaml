@@ -31,7 +31,7 @@ services:
       traefik.http.routers.bookorbit.entrypoints: "web"
       traefik.http.services.bookorbit.loadbalancer.server.port: "${PORT:-3000}"
       kuma.bookorbit.http.name: "BookOrbit"
-      kuma.bookorbit.http.url: "https://${APP_URL?required}"
+      kuma.bookorbit.http.url: "${APP_URL?required}"
     depends_on:
       postgres:
         condition: service_healthy
