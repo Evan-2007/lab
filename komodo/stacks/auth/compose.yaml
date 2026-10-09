@@ -42,6 +42,14 @@ services:
       - TRUST_PROXY=${POCKET_ID_TRUST_PROXY:-false}
       - PUID=${POCKET_ID_PUID:-1000}
       - PGID=${POCKET_ID_PGID:-1000}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.pocket-id.rule: Host(`${POCKET_ID_APP_URL}`)
+      traefik.http.routers.pocket-id.entrypoints: websecure
+      traefik.http.routers.pocket-id.tls.certresolver: myresolver
+      traefik.http.services.pocket-id.loadbalancer.server.port: 1411
+      uptime.pocket-id.http.name: "Pocket ID"
+      uptime.pocket-id.http.url: "${POCKET_ID_APP_URL}"
 
 volumes:
   pocket-id-data:
