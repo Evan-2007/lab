@@ -141,6 +141,15 @@ services:
     restart: unless-stopped
 
 
+  koinsight:
+    image: ghcr.io/ko-insight/koinsight:latest
+    restart: unless-stopped
+    ports:
+      - "3100:3000"
+    volumes:
+      - koinsight/app/data
+
+
 volumes:
   bookorbit-pgdata:
   books:
@@ -157,3 +166,4 @@ volumes:
   rdt-download:
   rdt-data:
   bookbridge-data:
+  koinsight:
