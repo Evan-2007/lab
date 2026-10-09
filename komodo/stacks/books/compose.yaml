@@ -149,7 +149,7 @@ services:
     ports:
       - "3100:3000"
     volumes:
-      - koinsight/app/data
+      - koinsight:/app/data
 
 
 volumes:
