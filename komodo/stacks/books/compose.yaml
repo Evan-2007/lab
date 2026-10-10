@@ -109,7 +109,7 @@ services:
     image: ghcr.io/cporcellijr/bookbridge:v7.9.0
     restart: unless-stopped
     ports:
-      - "8080:5757"
+      - "8085:5757"
       # - "5758:5758"  # Optional: expose the sync-only port when using KOSYNC_PORT=5758
     environment:
       - TZ=America/New_York
