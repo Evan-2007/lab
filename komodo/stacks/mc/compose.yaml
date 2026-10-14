@@ -2,7 +2,7 @@
 
 services:
   create:
-    image: itzg/minecraft-server:2026.9.2
+    image: itzg/minecraft-server:2026.10.0
     dns:
       - 8.8.8.8
       - 1.1.1.1
