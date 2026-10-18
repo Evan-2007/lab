@@ -127,7 +127,7 @@ services:
 
 
   rdtclient:
-    image: rogerfar/rdtclient:2.0.142
+    image: rogerfar/rdtclient:2.0.143
     container_name: rdtclient
     environment:
       - PUID=1000
