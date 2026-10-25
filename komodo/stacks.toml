@@ -152,3 +152,15 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/bambu"
+
+
+[[stack]]
+name = "media"
+description = "media stack"
+deploy = true
+tags = ["service"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/media"
