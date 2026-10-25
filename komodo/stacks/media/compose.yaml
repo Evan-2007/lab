@@ -11,3 +11,7 @@ services:
     volumes:
       - "navidrome_data:/data"
       - "temp_music:/music:ro"
+      
+volumes:
+  navidrome_data:
+  temp_music:
