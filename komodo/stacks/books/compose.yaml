@@ -1,7 +1,7 @@
 services:
   app:
     container_name: bookorbit-app
-    image: ghcr.io/bookorbit/bookorbit:3.3.0
+    image: ghcr.io/bookorbit/bookorbit:3.5.0
     restart: unless-stopped
     init: true
     ports:
@@ -66,6 +66,8 @@ services:
       timeout: 5s
       retries: 3
       start_period: 20s
+    dns:
+      - 192.168.40.1
 
   postgres:
     container_name: bookorbit-db
@@ -88,7 +90,7 @@ services:
 
 
   shelfmark:
-    image: ghcr.io/calibrain/shelfmark:v1.4.0
+    image: ghcr.io/calibrain/shelfmark:v1.5.1
     container_name: shelfmark
     environment:
       PUID: 1000
@@ -106,7 +108,7 @@ services:
 
   abs-kosync:
     container_name: bookbridge
-    image: ghcr.io/cporcellijr/bookbridge:v7.9.0
+    image: ghcr.io/cporcellijr/bookbridge:v7.10.0
     restart: unless-stopped
     ports:
       - "8085:5757"
@@ -125,7 +127,7 @@ services:
 
 
   rdtclient:
-    image: rogerfar/rdtclient:2.0.142
+    image: rogerfar/rdtclient:2.0.143
     container_name: rdtclient
     environment:
       - PUID=1000
