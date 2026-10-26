@@ -17,3 +17,7 @@ services:
     cap_add:
     - SYS_RAWIO # required for S.M.A.R.T. data
     - SYS_ADMIN # required for NVMe S.M.A.R.T. data
+
+volumes:
+  beszel_agent_data:
+  beszel_socket:

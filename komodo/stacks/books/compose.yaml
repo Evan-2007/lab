@@ -119,8 +119,8 @@ services:
       # - KOSYNC_PORT=5758  # Optional: enable split-port mode
       # Configure ABS, KOSync, BookFusion, Grimmory, BookOrbit, CWA, Storyteller, and other services in the Web UI.
     volumes:
-      - ./data:/data
-      - bookbridge-data:/books
+      - bookbridge-data:/data
+      - books:/books
       # - /path/to/other/library:/calibre_library:ro         # Optional: a second ebook library (also set EXTRA_EBOOK_DIRS)
       # - /path/to/storyteller/library:/storyteller_library  # Optional: local Storyteller fallback/download access
       # - /path/to/storyteller/assets:/storyteller/assets    # Optional: Storyteller transcript ingest
