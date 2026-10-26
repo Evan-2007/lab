@@ -9,7 +9,7 @@ services:
       - '81:81'
       - '443:443'
     volumes:
-      - npm_data:/data
+      - npm-data:/data
       - letsencrypt:/etc/letsencrypt
 volumes:
   npm_data:
