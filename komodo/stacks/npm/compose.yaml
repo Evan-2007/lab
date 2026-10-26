@@ -12,5 +12,5 @@ services:
       - npm-data:/data
       - letsencrypt:/etc/letsencrypt
 volumes:
-  npm_data:
+  npm-data:
   letsencrypt:
