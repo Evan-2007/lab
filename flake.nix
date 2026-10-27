@@ -11,9 +11,13 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, sops-nix, deploy-rs, ... }: {
+  outputs = { self, nixpkgs, sops-nix, deploy-rs, disko, ... }: {
 
     nixosConfigurations.node4 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -25,6 +29,16 @@
       ];
     };
 
+    nixosConfigurations.dococd-test = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./nixos/hosts/dococd-test/configuration.nix
+        ./nixos/modules/common.nix
+        ./nixos/modules/doco-cd.nix
+        sops-nix.nixosModules.sops
+        disko.nixosModules.disko
+      ];
+    };
 
   };
 }
