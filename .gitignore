@@ -1,0 +1,3 @@
+# Plaintext secrets, only the sops-encrypted copies get committed
+komodo/secrets.toml
+**/secrets.env
