@@ -7,7 +7,7 @@ tags = ["monitoring"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/beszel/agent"
+run_directory = "./stacks/beszel/agent"
 environment = """
 BEZEL_PUBLIC_KEY=[[BEZEL_PUBLIC_KEY_node4]]
 BEZEL_TOKEN=[[BEZEL_TOKEN_node4]]
@@ -23,7 +23,7 @@ tags = ["monitoring"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/beszel/hub"
+run_directory = "./stacks/beszel/hub"
 
 [[stack]]
 name = "uptime-kuma"
@@ -34,7 +34,7 @@ tags = ["monitoring"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/uptime-kuma"
+run_directory = "./stacks/uptime-kuma"
 environment = """
 AUTOKUMA__KUMA__USERNAME=[[AUTOKUMA__KUMA__USERNAME]]
 AUTOKUMA__KUMA__PASSWORD=[[AUTOKUMA__KUMA__PASSWORD]]
@@ -50,7 +50,7 @@ tags = ["ingress"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/traefik"
+run_directory = "./stacks/traefik"
 
 [[stack]]
 name = "crafty-controller"
@@ -61,7 +61,7 @@ tags = ["minecraft"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/crafty-controller"
+run_directory = "./stacks/crafty-controller"
 
 [[stack]]
 name= "auth"
@@ -72,7 +72,7 @@ tags = ["authentication"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/auth"
+run_directory = "./stacks/auth"
 environment = """
 TINYAUTH_APPURL=[[TINYAUTH_APPURL]]
 TINYAUTH_AUTH_USERS=[[TINYAUTH_AUTH_USERS]]
@@ -92,7 +92,7 @@ tags = ["game-server", "minecraft"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/mc"
+run_directory = "./stacks/mc"
 
 [[stack]]
 name = "backup"
@@ -103,7 +103,7 @@ tags = ["backup"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/backup"
+run_directory = "./stacks/backup"
 
 [[stack]]
 name = "access"
@@ -114,7 +114,7 @@ tags = ["access"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/access"
+run_directory = "./stacks/access"
 environment = """
 WG_OIDC_CLIENT_SECRET=[[WG_OIDC_CLIENT_SECRET]]
 NEWT_ID=[[NEWT_ID]]
@@ -130,7 +130,7 @@ tags = ["service"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/books"
+run_directory = "./stacks/books"
 environment = """
 APP_PORT=[[BOOKORBIT_APP_PORT]]
 APP_URL=[[BOOKORBIT_APP_URL]]
@@ -151,7 +151,7 @@ tags = ["service"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/bambu"
+run_directory = "./stacks/bambu"
 
 
 [[stack]]
@@ -163,4 +163,4 @@ tags = ["service"]
 server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
-run_directory = "./komodo/stacks/media"
+run_directory = "./stacks/media"
