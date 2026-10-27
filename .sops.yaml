@@ -8,7 +8,7 @@ creation_rules:
       - age:
         - *node4
 
-  - path_regex: stacks/.*/secrets(\.sops)?\.env$
+  - path_regex: stacks[\\/].*[\\/]secrets(\.sops)?\.env$
     key_groups:
       - age:
         - *lab
