@@ -1,0 +1,9 @@
+# cp terraform.tfvars.example terraform.tfvars
+proxmox_endpoint  = "https://pve.example:8006/"
+proxmox_api_token = "tofu@pve!tofu=00000000-0000-0000-0000-000000000000"
+node_name         = "pve"
+
+# vlan_id = 40
+
+
+ flake = "github:Evan-2007/lab/docoCD"
