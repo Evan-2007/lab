@@ -1,8 +1,14 @@
 keys:
   - &node4 age1e64el5x3xdu3pmce2a94s6wca3m5mt5dcjaz52s8xjjja28g3ejskr8w2k
+  - &lab age1306vmgtph4w0ttdgxvp5lkn90da632qandaad2875hg0hrn9yfsqmta89v
 
 creation_rules:
   - path_regex: nixos/secrets/.*\.yaml$
     key_groups:
       - age:
         - *node4
+
+  - path_regex: stacks/.*/secrets(\.sops)?\.env$
+    key_groups:
+      - age:
+        - *lab
