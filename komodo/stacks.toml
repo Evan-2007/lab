@@ -176,3 +176,6 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/games"
+environment = """
+INVITE_CODE=[[WINDROSE_INVITE_CODE]]
+"""
