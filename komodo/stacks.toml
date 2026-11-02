@@ -164,3 +164,15 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/media"
+
+
+[[stack]]
+name = "games"
+description = "games stack"
+deploy = true
+tags = ["service"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "main"
+run_directory = "./komodo/stacks/games"

@@ -1,0 +1,13 @@
+services:
+  windrose:
+    image: indifferentbroccoli/windrose-server-docker
+    restart: unless-stopped
+    container_name: windrose
+    stop_grace_period: 30s
+    env_file:
+      - .env
+    volumes:
+      - windrose:/home/steam/server-files
+
+volumes:
+  windrose: 
