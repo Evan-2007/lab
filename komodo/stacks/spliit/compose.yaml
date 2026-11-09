@@ -35,8 +35,33 @@ services:
     environment:
       - PORT=${PORT:-3000}
       - HOSTNAME=0.0.0.0
-      # Execution time in PostgreSQL's cron.timezone; applied to expense jobs at startup.
+
+      # Database
+      - DATABASE_URL=postgresql://${POSTGRES_USER:?err}:${POSTGRES_PASSWORD:?err}@${POSTGRES_CONTAINER_NAME:-splitpro-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:?err}
+
+      # Next Auth (generate secret with: openssl rand -base64 32)
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:?err}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:?err}
+      - NEXTAUTH_URL_INTERNAL=${NEXTAUTH_URL_INTERNAL:-http://localhost:3000}
+
+      # App behaviour
+      - DEFAULT_HOMEPAGE=${DEFAULT_HOMEPAGE:-/home}
+      - ENABLE_SENDING_INVITES=${ENABLE_SENDING_INVITES:-false}
+      - ENABLE_USER_DISCOVERY=${ENABLE_USER_DISCOVERY:-false}
+      - DISABLE_EMAIL_SIGNUP=${DISABLE_EMAIL_SIGNUP:-false}
+      - EXCLUDE_FUTURE_EXPENSES=${EXCLUDE_FUTURE_EXPENSES:-false}
+      - OAUTH_AUTO_REDIRECT=${OAUTH_AUTO_REDIRECT:-false}
+      - CURRENCY_RATE_PROVIDER=${CURRENCY_RATE_PROVIDER:-frankfurter}
+      - UPLOAD_MAX_FILE_SIZE_MB=${UPLOAD_MAX_FILE_SIZE_MB:-10}
+
+      # Cron / recurrence (time is in PostgreSQL's cron.timezone)
       - RECURRENCE_TIME=${RECURRENCE_TIME:-00:00}
+      - CLEAR_CACHE_CRON_RULE=${CLEAR_CACHE_CRON_RULE:-0 2 * * 0}
+      - CACHE_RETENTION_INTERVAL=${CACHE_RETENTION_INTERVAL:-2 days}
+
+      # Optional integrations (SMTP, OAuth/OIDC, web push, GoCardless, Plaid, etc.)
+      # are left out here so empty values don't fail schema validation —
+      # set them in the Komodo stack environment and they arrive via .env.
     env_file: .env
     healthcheck:
       test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:${PORT:-3000}/api/healthz']

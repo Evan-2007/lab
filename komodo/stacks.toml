@@ -191,3 +191,10 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "main"
 run_directory = "./komodo/stacks/spliit"
+environment = """
+POSTGRES_USER=splitpro
+POSTGRES_PASSWORD=[[SPLITPRO_DB_PASSWORD]]
+POSTGRES_DB=splitpro
+NEXTAUTH_SECRET=[[SPLITPRO_NEXTAUTH_SECRET]]
+NEXTAUTH_URL=https://split.evanc.dev
+"""
