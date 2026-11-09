@@ -59,7 +59,15 @@ services:
       - CLEAR_CACHE_CRON_RULE=${CLEAR_CACHE_CRON_RULE:-0 2 * * 0}
       - CACHE_RETENTION_INTERVAL=${CACHE_RETENTION_INTERVAL:-2 days}
 
-      # Optional integrations (SMTP, OAuth/OIDC, web push, GoCardless, Plaid, etc.)
+      # Auth: email magic link / OTP via SMTP
+      - FROM_EMAIL=${FROM_EMAIL:?err}
+      - EMAIL_SERVER_HOST=${EMAIL_SERVER_HOST:?err}
+      - EMAIL_SERVER_PORT=${EMAIL_SERVER_PORT:-587}
+      - EMAIL_SERVER_USER=${EMAIL_SERVER_USER:?err}
+      - EMAIL_SERVER_PASSWORD=${EMAIL_SERVER_PASSWORD:?err}
+      - EMAIL_TLS_REJECT_UNAUTHORIZED=${EMAIL_TLS_REJECT_UNAUTHORIZED:-1}
+
+      # Optional integrations (OAuth/OIDC providers, web push, GoCardless, Plaid, etc.)
       # are left out here so empty values don't fail schema validation —
       # set them in the Komodo stack environment and they arrive via .env.
     env_file: .env
