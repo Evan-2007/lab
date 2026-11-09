@@ -1,0 +1,34 @@
+name: spliit
+
+services:
+  app:
+    image: ghcr.io/spliit-app/spliit:latest
+    ports:
+      - "8087:3000/tcp"
+    environment:
+      POSTGRES_PRISMA_URL: postgresql://spliit:spliit@database:5432/spliit
+      POSTGRES_URL_NON_POOLING: postgresql://spliit:spliit@database:5432/spliit
+    volumes:
+      - spliit_cache:/usr/app/.next/cache
+    depends_on:
+      - database
+    networks:
+      - spliit
+
+  database:
+    image: postgres:17.3
+    environment:
+      POSTGRES_USER: spliit
+      POSTGRES_PASSWORD: spliit
+      POSTGRES_DB: spliit
+    volumes:
+      - spliit_db:/var/lib/postgresql/data
+    networks:
+      - spliit
+
+networks:
+  spliit:
+
+volumes:
+  spliit_cache:
+  spliit_db:
