@@ -16,7 +16,7 @@ services:
       - spliit
 
   database:
-    image: postgres:17.3
+    image: postgres:17.11
     environment:
       POSTGRES_USER: spliit
       POSTGRES_PASSWORD: spliit
