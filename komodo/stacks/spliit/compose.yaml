@@ -1,34 +1,54 @@
-name: spliit
+name: split-pro-prod
 
 services:
-  app:
-    image: ghcr.io/spliit-app/spliit:latest
+  postgres:
+    image: ossapps/postgres:17.7-trixie
+    container_name: ${POSTGRES_CONTAINER_NAME:-splitpro-db}
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:?err}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?err}
+      - POSTGRES_DB=${POSTGRES_DB:?err}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: >
+      postgres
+      -c shared_preload_libraries=pg_cron
+      -c cron.database_name=${POSTGRES_DB:-splitpro}
+      -c cron.timezone=${RECURRENCE_TIME_ZONE:-UTC}
+    # ports:
+    #   - "5432:5432"
+    env_file: .env
+    volumes:
+      - split_database:/var/lib/postgresql/data
+
+  splitpro:
+    image: ossapps/splitpro:latest
+    container_name: splitpro
+    restart: always
     ports:
-      - "8087:3000/tcp"
+      - ${PORT:-8086}:${PORT:-3000}
     environment:
-      POSTGRES_PRISMA_URL: postgresql://spliit:spliit@database:5432/spliit
-      POSTGRES_URL_NON_POOLING: postgresql://spliit:spliit@database:5432/spliit
-    volumes:
-      - spliit_cache:/usr/app/.next/cache
+      - PORT=${PORT:-3000}
+      - HOSTNAME=0.0.0.0
+      # Execution time in PostgreSQL's cron.timezone; applied to expense jobs at startup.
+      - RECURRENCE_TIME=${RECURRENCE_TIME:-00:00}
+    env_file: .env
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:${PORT:-3000}/api/healthz']
+      interval: 30s
+      timeout: 5s
+      retries: 3
     depends_on:
-      - database
-    networks:
-      - spliit
-
-  database:
-    image: postgres:17.3
-    environment:
-      POSTGRES_USER: spliit
-      POSTGRES_PASSWORD: spliit
-      POSTGRES_DB: spliit
+      postgres:
+        condition: service_healthy
     volumes:
-      - spliit_db:/var/lib/postgresql/data
-    networks:
-      - spliit
-
-networks:
-  spliit:
+      - split_uploads:/app/uploads
 
 volumes:
-  spliit_cache:
-  spliit_db:
+  split_database:
+  split_uploads:
