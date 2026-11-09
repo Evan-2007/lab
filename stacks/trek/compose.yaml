@@ -18,10 +18,10 @@ services:
     tmpfs:
       - /tmp:noexec,nosuid,size=128m
     ports:
-      - "3000:3000"
+      - "3025:3000"
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=3025
       - ENCRYPTION_KEY=${ENCRYPTION_KEY:-} # Recommended. Generate with: openssl rand -hex 32. If unset, falls back to data/.jwt_secret (existing installs) or auto-generates a key (fresh installs).
       - TZ=${TZ:-UTC} # Timezone for logs, reminders and scheduled tasks (e.g. Europe/Berlin)
       - LOG_LEVEL=${LOG_LEVEL:-info} # info = concise user actions; debug = verbose admin-level details
