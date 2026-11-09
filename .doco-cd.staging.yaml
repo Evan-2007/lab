@@ -4,3 +4,7 @@ working_dir: stacks/traefik
 name: auth
 working_dir: stacks/auth
 env_files: [secrets.sops.env]
+---
+name: books
+working_dir: stacks/books
+env_files: [secrets.sops.env]
