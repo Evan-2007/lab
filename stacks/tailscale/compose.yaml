@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  tailscale-router:
+    image: tailscale/tailscale:stable
+    container_name: tailscale-router
+    network_mode: host
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      # Enable exit node and/or advertise subnets
+      - TS_EXTRA_ARGS=--advertise-exit-node --advertise-routes=192.168.40.0/24
+    volumes:
+      - tailscale-data:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped
+
+volumes:
+  tailscale-data:
