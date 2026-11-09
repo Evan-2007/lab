@@ -214,3 +214,18 @@ server = "node4"
 repo = "Evan-2007/lab"
 branch = "docoCD"
 run_directory = "./stacks/trek"
+
+
+[[stack]]
+name = "tailscale"
+description = "tailscale stack"
+deploy = true
+tags = ["service"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "docoCD"
+run_directory = "./stacks/tailscale"
+environment = """
+TS_AUTHKEY=[[TAILSCALE_AUTHKEY]]
+""" 
