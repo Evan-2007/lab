@@ -203,3 +203,14 @@ EMAIL_SERVER_PORT=587
 EMAIL_SERVER_USER=resend
 EMAIL_SERVER_PASSWORD=[[SPLITPRO_RESEND_API_KEY]]
 """
+
+[[stack]]
+name = "trek"
+description = "trek stack"
+deploy = true
+tags = ["service"]
+[stack.config]
+server = "node4"
+repo = "Evan-2007/lab"
+branch = "docoCD"
+run_directory = "./stacks/trek"
